@@ -46,7 +46,7 @@
       opacity: 0.25;
       z-index: 1;
     }
-    /* Loading Content: logo, text and progress bar */
+    /* Loading Content: logo and text on top */
     #loading-content {
       position: relative;
       z-index: 2;
@@ -56,7 +56,7 @@
       justify-content: center;
       height: 100%;
     }
-    /* Loading logo (225px wide) */
+    /* Increased logo size for the loading screen (225px wide) */
     #loading-logo {
       width: 225px;
       height: auto;
@@ -82,7 +82,7 @@
       background-color: var(--primary-color);
       transition: width 0.3s ease;
     }
-    /* Header container */
+    /* Header container (adjustable via variable) */
     #header-container {
       position: relative;
       height: var(--header-height);
@@ -91,19 +91,21 @@
       justify-content: space-between;
       padding: 0 10px;
     }
-    /* Header title styling – aligned to the left and centered vertically */
+    /* Header title styling – aligned to the left, centered vertically */
     #header-container h2 {
       margin: 0;
       font-weight: 600;
       font-size: 12px;
       flex-grow: 1;
       text-align: left;
+      transform: translateY(0%); /* Changed from 10% to 0% for perfect centering */
     }
-    /* Header logo: fills header height and maintains proportional width */
+    /* Header logo: fills header height and maintains proportional width; 50% bigger than header with upward shift */ 
     #logo {
-      height: 100%;  /* fills header height */ 
-      width: auto;   /* maintains aspect ratio */ 
+      height: 150%;  /* 50% bigger than header's height */
+      width: auto;
       object-fit: contain;
+      transform: translateY(-25%); /* Adjust upward to center the larger logo */
     }
     /* 360 Viewer Container: for PC fills full screen; for mobile, height is calculated */
     #panorama {
@@ -138,7 +140,7 @@
       height: 60px;
       border-radius: 50%;
       overflow: hidden;
-      border: 1px solid var(--primary-color);
+      border: 1px solid var(--primary-color); /* 1px black border */
       background: #fff;
     }
     .bubble img {
@@ -161,12 +163,7 @@
     /* Mobile adjustments */
     @media (max-width: 768px) {
       #header-container h2 { font-size: 10px; }
-      #logo { height: 100%; width: auto; object-fit: contain; }
-      #loading-logo { width: 150px; }
-      #loading-text { font-size: 16px; }
-      .bubble { width: 50px; height: 50px; }
-      .bubble-label { font-size: 9px; }
-    }
+      #logo { height: 100%; width: auto; object-fit: contain; transform: none; } /* Use default on mobile if needed */\n      #loading-logo { width: 150px; }\n      #loading-text { font-size: 16px; }\n      .bubble { width: 50px; height: 50px; }\n      .bubble-label { font-size: 9px; }\n    }
   </style>
 </head>
 <body>
@@ -295,8 +292,8 @@
             maxPitch: 120,
             minYaw: -180,
             maxYaw: 180,
-            minHfov: 80,
-            maxHfov: 120
+            minHfov: 30,
+            maxHfov: 80
           },
           scenes: {
             living: {
