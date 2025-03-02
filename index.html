@@ -46,7 +46,7 @@
       opacity: 0.25;
       z-index: 1;
     }
-    /* Loading Content: logo and text on top */
+    /* Loading Content: logo, text and progress bar */
     #loading-content {
       position: relative;
       z-index: 2;
@@ -56,7 +56,7 @@
       justify-content: center;
       height: 100%;
     }
-    /* Increased logo size for the loading screen (225px wide) */
+    /* Loading logo (225px wide) */
     #loading-logo {
       width: 225px;
       height: auto;
@@ -98,16 +98,12 @@
       font-size: 12px;
       flex-grow: 1;
       text-align: left;
-      transform: translateY(0%); /* Changed from 10% to 0% for perfect centering */
+      transform: translateY(0%);  /* Remove any vertical offset */
     }
-    /* Header logo: fills header height and maintains proportional width; 50% bigger than header with upward shift */ 
+    /* Header logo: fills header height and maintains proportional width; 50% bigger than before */
     #logo {
-      height: 150%;  /* 50% bigger than header's height */
-      width: auto;
-      object-fit: contain;
-      transform: translateY(-25%); /* Adjust upward to center the larger logo */
-    }
-    /* 360 Viewer Container: for PC fills full screen; for mobile, height is calculated */
+      height: 100%;   /* originally 40px; now we set the logo height to fill 100% of header */\n      /* To make it 50% bigger, we use 150% of header height (e.g., 60px if header is 40px) */\n      height: 150%;\n      width: auto;\n      object-fit: contain;\n      transform: translateY(-25%);  /* shift up to center the larger logo within the header */\n    }
+    /* 360 Viewer Container: for PC fills full screen; for mobile, adjust accordingly */
     #panorama {
       width: 100vw;
       margin-top: 10px;
@@ -140,7 +136,7 @@
       height: 60px;
       border-radius: 50%;
       overflow: hidden;
-      border: 1px solid var(--primary-color); /* 1px black border */
+      border: 1px solid var(--primary-color);
       background: #fff;
     }
     .bubble img {
@@ -163,7 +159,12 @@
     /* Mobile adjustments */
     @media (max-width: 768px) {
       #header-container h2 { font-size: 10px; }
-      #logo { height: 100%; width: auto; object-fit: contain; transform: none; } /* Use default on mobile if needed */\n      #loading-logo { width: 150px; }\n      #loading-text { font-size: 16px; }\n      .bubble { width: 50px; height: 50px; }\n      .bubble-label { font-size: 9px; }\n    }
+      #logo { height: 150%; width: auto; object-fit: contain; transform: translateY(-25%); }
+      #loading-logo { width: 150px; }
+      #loading-text { font-size: 16px; }
+      .bubble { width: 50px; height: 50px; }
+      .bubble-label { font-size: 9px; }
+    }
   </style>
 </head>
 <body>
@@ -181,7 +182,7 @@
   
   <!-- Header (role="banner") -->
   <header id="header-container">
-    <h2>360° Virtual Walkthrough TEST</h2>
+    <h2>360° Virtual Walkthrough</h2>
     <img id="logo" alt="Logo">
   </header>
   
@@ -292,8 +293,8 @@
             maxPitch: 120,
             minYaw: -180,
             maxYaw: 180,
-            minHfov: 30,
-            maxHfov: 80
+            minHfov: 80,
+            maxHfov: 120
           },
           scenes: {
             living: {
