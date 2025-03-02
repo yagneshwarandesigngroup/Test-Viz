@@ -5,35 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>360° Walkthrough | Yagneshwaran Design Group</title>
   
-  <!-- Fonts -->
+  <!-- Import Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
   
-  <!-- Pannellum -->
+  <!-- Pannellum for 360° viewer (Using CDN) -->
   <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
   <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css" />
-
+  
   <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      padding-top: 40px;
+    :root {
+      --primary-color: #1C1C1B;
+      --secondary-color: #fff;
+      --text-color: #333;
+      --header-height: 40px;
     }
-
-    /* Loading Screen */
+    body { 
+      font-family: "Poppins", sans-serif; 
+      margin: 0; 
+      text-align: center; 
+      background: var(--secondary-color);
+    }
+    /* Loading Screen Overlay */
     #loading-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #fff;
+      background-color: #fff;
       z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
     }
-
+    /* Loading Background Image with 25% opacity */
     #loading-bg {
       position: absolute;
       top: 0;
@@ -45,235 +47,289 @@
       opacity: 0.25;
       z-index: 1;
     }
-
+    /* Loading Content: logo and text on top */
     #loading-content {
       position: relative;
       z-index: 2;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
     }
-
+    /* Loading logo (225px wide) */
     #loading-logo {
       width: 225px;
+      height: auto;
+      object-fit: cover;
       margin-bottom: 20px;
     }
-
     #loading-text {
       font-size: 18px;
       font-weight: 600;
-      color: #333;
+      color: var(--text-color);
     }
-
-    /* Header */
+    /* Header container (height adjustable via variable) */
     #header-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 40px;
+      position: relative;
+      height: var(--header-height);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 15px;
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 100;
+      padding: 0 10px;
     }
-
+    /* Header title styling */
     #header-container h2 {
       margin: 0;
-      font-size: 14px;
       font-weight: 600;
-      color: #1C1C1B;
+      font-size: 12px;
+      flex-grow: 1;
+      text-align: left;
     }
-
+    /* Header logo: fills header height, maintains proportional width */
     #logo {
-      height: 30px;
+      height: 100%;
       width: auto;
+      object-fit: contain;
     }
-
-    /* 360 Viewer */
+    /* 360 Viewer Container: fills entire viewport */
     #panorama {
       width: 100vw;
-      height: calc(100vh - 40px);
+      height: 100vh;
+      margin-top: 10px;
     }
-
-    /* Bubble Navigation */
+    /* Bubble Navigation Container */
     #bubble-container {
       position: fixed;
       bottom: 20px;
       left: 0;
       right: 0;
       display: flex;
-      justify-content: center;
-      gap: 25px;
+      justify-content: space-evenly;
+      align-items: center;
       z-index: 150;
     }
-
+    .bubble-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .bubble-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
     .bubble {
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      border: 1px solid #1C1C1B;
       overflow: hidden;
-      background: #fff;
-      cursor: pointer;
+      border: 1px solid var(--primary-color);
+      background: var(--secondary-color);
     }
-
     .bubble img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      /* Animation: image zoomed in and pans horizontally over 6 sec */
       animation: bubblePan 6s linear infinite alternate-reverse;
     }
-
-    .bubble-label {
-      margin-top: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #1C1C1B;
-    }
-
     @keyframes bubblePan {
       0% { transform: scale(1.8) translateX(0%); }
       100% { transform: scale(1.8) translateX(20%); }
     }
-
-    /* Mobile */
+    .bubble-label {
+      margin-top: 5px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--primary-color);
+    }
+    /* Mobile adjustments */
     @media (max-width: 768px) {
-      #header-container { padding: 0 10px; }
-      #header-container h2 { font-size: 12px; }
-      #logo { height: 25px; }
+      #header-container { height: var(--header-height); padding: 0 10px; }
+      #header-container h2 { font-size: 10px; }
+      #logo { height: 100%; width: auto; object-fit: contain; }
+      #loading-logo { width: 150px; }
+      #loading-text { font-size: 16px; }
       .bubble { width: 50px; height: 50px; }
-      .bubble-label { font-size: 12px; }
+      .bubble-label { font-size: 9px; }
     }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div id="loading-screen">
+  <!-- Loading Screen Overlay (role="alert") -->
+  <div id="loading-screen" role="alert">
     <div id="loading-bg"></div>
     <div id="loading-content">
-      <img id="loading-logo" alt="Loading Logo">
+      <img id="loading-logo" alt="Logo">
       <div id="loading-text">Your 360° Virtual Walkthrough is setting up...</div>
     </div>
   </div>
-
-  <!-- Header -->
-  <div id="header-container">
+  
+  <!-- Header (role="banner") -->
+  <header id="header-container">
     <h2>360° Virtual Walkthrough</h2>
-    <img id="logo" alt="Company Logo">
-  </div>
-
-  <!-- 360 Viewer -->
-  <div id="panorama"></div>
-
-  <!-- Bubble Navigation -->
-  <div id="bubble-container">
+    <img id="logo" alt="Logo">
+  </header>
+  
+  <!-- Main Content (role="main") -->
+  <main id="content-wrapper">
+    <!-- 360 Viewer Container -->
+    <div id="panorama"></div>
+  </main>
+  
+  <!-- Navigation (role="navigation") -->
+  <nav id="bubble-container">
     <div class="bubble-item" data-scene="living">
-      <div class="bubble"><img alt="Living Room"></div>
+      <div class="bubble"><img alt="Living Room Preview"></div>
       <div class="bubble-label">Living Room</div>
     </div>
     <div class="bubble-item" data-scene="kitchen">
-      <div class="bubble"><img alt="Kitchen"></div>
+      <div class="bubble"><img alt="Kitchen Preview"></div>
       <div class="bubble-label">Kitchen</div>
     </div>
     <div class="bubble-item" data-scene="balcony">
-      <div class="bubble"><img alt="Balcony"></div>
+      <div class="bubble"><img alt="Balcony Preview"></div>
       <div class="bubble-label">Balcony</div>
     </div>
     <div class="bubble-item" data-scene="mbed">
-      <div class="bubble"><img alt="Master Bedroom"></div>
+      <div class="bubble"><img alt="Master Bedroom Preview"></div>
       <div class="bubble-label">Master Bedroom</div>
     </div>
-  </div>
-
+  </nav>
+  
   <script>
-    // Image Loading System
+    /* ---------------------------------------------------
+       Mapping: Scene ID to File Base Name
+       For the living room, file name is "hall"
+    --------------------------------------------------- */
     const fileMapping = { "living": "hall" };
 
-    function loadImageWithFallback(imgElement, baseName) {
-      const formats = [".jpg", ".jpeg", ".png"];
+    /* ---------------------------------------------------
+       Logo Fallback (Synchronous)
+    --------------------------------------------------- */
+    function loadImageWithFallback(imgElement, baseName, formats) {
       let index = 0;
-      
       function tryNext() {
-        if (index >= formats.length) {
-          console.error(`Image not found: ${baseName}`);
-          return;
-        }
+        if (index >= formats.length) return;
         imgElement.src = baseName + formats[index];
-        imgElement.onerror = () => {
-          index++;
-          tryNext();
-        };
+        index++;
       }
+      imgElement.onerror = tryNext;
       tryNext();
     }
+    // Load logo for header and loading screen
+    loadImageWithFallback(document.getElementById("logo"), "logo", [".jpg", ".jpeg", ".png"]);
+    loadImageWithFallback(document.getElementById("loading-logo"), "logo", [".jpg", ".jpeg", ".png"]);
 
-    // Load logos
-    loadImageWithFallback(document.getElementById("logo"), "logo");
-    loadImageWithFallback(document.getElementById("loading-logo"), "logo");
+    /* ---------------------------------------------------
+       Async Image Loader with Fallback
+    --------------------------------------------------- */
+    async function getCompatibleImageURL(baseName, formats) {
+      for (const ext of formats) {
+        const url = baseName + ext;
+        try {
+          await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = url;
+          });
+          return url;
+        } catch(e) {
+          // Try next extension
+        }
+      }
+      return "";
+    }
 
-    // Initialize Viewer
+    // Helper function to get panorama URL (using mapping for living room)
+    async function getPanoramaURL(sceneName) {
+      const baseName = fileMapping[sceneName] || sceneName;
+      return await getCompatibleImageURL(baseName, [".jpg", ".jpeg", ".png"]);
+    }
+
+    /* ---------------------------------------------------
+       Initialize Pannellum Viewer
+    --------------------------------------------------- */
     async function initViewer() {
       try {
-        const scenes = {};
-        
-        // Load all scenes
-        for (const sceneElement of document.querySelectorAll('.bubble-item')) {
-          const sceneId = sceneElement.dataset.scene;
-          const baseName = fileMapping[sceneId] || sceneId;
-          const imgElement = sceneElement.querySelector('img');
-          loadImageWithFallback(imgElement, baseName);
-          
-          scenes[sceneId] = {
-            type: "equirectangular",
-            panorama: `${baseName}.jpg`,
-            hotSpots: []
-          };
-        }
+        const livingURL = await getPanoramaURL("living");
+        const kitchenURL = await getPanoramaURL("kitchen");
+        const balconyURL = await getPanoramaURL("balcony");
+        const mbedURL = await getPanoramaURL("mbed");
 
         window.viewer = pannellum.viewer('panorama', {
           default: {
             firstScene: 'living',
-            sceneFadeDuration: 1000,
+            autoLoad: true,
             showZoomCtrl: true,
-            minHfov: 30,
-            maxHfov: 80
+            minPitch: -120,
+            maxPitch: 120,
+            minYaw: -180,
+            maxYaw: 180,
+            minHfov: 80,
+            maxHfov: 120
           },
-          scenes: scenes
+          scenes: {
+            living: {
+              type: 'equirectangular',
+              panorama: livingURL,
+              hotSpots: []
+            },
+            kitchen: {
+              type: 'equirectangular',
+              panorama: kitchenURL,
+              hotSpots: []
+            },
+            balcony: {
+              type: 'equirectangular',
+              panorama: balconyURL,
+              hotSpots: []
+            },
+            mbed: {
+              type: 'equirectangular',
+              panorama: mbedURL,
+              hotSpots: []
+            }
+          }
         });
-
       } catch (error) {
-        console.error("Viewer initialization failed:", error);
+        console.error("Error initializing viewer:", error);
       }
     }
 
-    // Initialize Bubble Navigation
-    function initBubbles() {
-      document.querySelectorAll('.bubble-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const scene = item.dataset.scene;
+    /* ---------------------------------------------------
+       Initialize Bubble Previews (Using Full-Quality Image)
+    --------------------------------------------------- */
+    async function initBubbles() {
+      const bubbleItems = document.querySelectorAll(".bubble-item");
+      for (const item of bubbleItems) {
+        const scene = item.getAttribute("data-scene");
+        try {
+          const panoURL = await getPanoramaURL(scene);
+          item.querySelector(".bubble img").src = panoURL;
+        } catch (error) {
+          console.error("Error loading full-quality preview for", scene, error);
+        }
+        item.addEventListener("click", function() {
           if (window.viewer) {
             window.viewer.loadScene(scene);
           }
         });
-      });
-    }
-
-    // Initialize Everything
-    async function initAll() {
-      try {
-        await initViewer();
-        initBubbles();
-        document.getElementById('loading-screen').style.display = 'none';
-      } catch (error) {
-        console.error("Initialization failed:", error);
-        document.getElementById('loading-text').textContent = 
-          "Failed to load. Please check your internet connection.";
       }
     }
 
-    // Start Experience
+    /* ---------------------------------------------------
+       Combined Initialization: Wait for viewer and bubbles to load
+    --------------------------------------------------- */
+    async function initAll() {
+      await Promise.all([initViewer(), initBubbles()]);
+      // Hide the loading screen once everything is fully loaded
+      document.getElementById("loading-screen").style.display = "none";
+    }
     initAll();
   </script>
 </body>
