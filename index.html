@@ -46,7 +46,7 @@
       opacity: 0.25;
       z-index: 1;
     }
-    /* Loading Content: logo and text on top */
+    /* Loading Content: logo, text and progress bar */
     #loading-content {
       position: relative;
       z-index: 2;
@@ -56,7 +56,7 @@
       justify-content: center;
       height: 100%;
     }
-    /* Increased logo size for the loading screen (225px wide) */
+    /* Loading logo (225px wide) */
     #loading-logo {
       width: 225px;
       height: auto;
@@ -68,7 +68,21 @@
       font-weight: 600;
       color: var(--text-color);
     }
-    /* Header container (adjustable via variable) */
+    /* Progress Bar Container */
+    #progress-container {
+      width: 80%;
+      height: 5px;
+      background-color: #ddd;
+      margin-top: 20px;
+    }
+    /* Progress Bar */
+    #progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+    /* Header container */
     #header-container {
       position: relative;
       height: var(--header-height);
@@ -77,7 +91,7 @@
       justify-content: space-between;
       padding: 0 10px;
     }
-    /* Header title styling – aligned to the left */
+    /* Header title styling – aligned to the left and centered vertically */
     #header-container h2 {
       margin: 0;
       font-weight: 600;
@@ -87,11 +101,11 @@
     }
     /* Header logo: fills header height and maintains proportional width */
     #logo {
-      height: 100%;
-      width: auto;
+      height: 100%;  /* fills header height */ 
+      width: auto;   /* maintains aspect ratio */ 
       object-fit: contain;
     }
-    /* 360 Viewer Container: different heights for PC and Mobile */
+    /* 360 Viewer Container: for PC fills full screen; for mobile, height is calculated */
     #panorama {
       width: 100vw;
       margin-top: 10px;
@@ -156,12 +170,12 @@
   </style>
 </head>
 <body>
-  <!-- Loading Screen Overlay -->
+  <!-- Loading Screen Overlay (role="alert") -->
   <div id="loading-screen" role="alert">
     <div id="loading-bg"></div>
     <div id="loading-content">
       <img id="loading-logo" alt="Logo">
-      <div id="loading-text">Your 360° Virtual Walkthrough Test is setting up...</div>
+      <div id="loading-text">Your 360° Virtual Walkthrough is setting up...</div>
       <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
@@ -170,7 +184,7 @@
   
   <!-- Header (role="banner") -->
   <header id="header-container">
-    <h2>Test 360° Virtual Walkthrough</h2>
+    <h2>360° Virtual Walkthrough TEST</h2>
     <img id="logo" alt="Logo">
   </header>
   
