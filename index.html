@@ -46,7 +46,7 @@
       opacity: 0.25;
       z-index: 1;
     }
-    /* Loading Content: logo, text and progress bar */
+    /* Loading Content: logo and text on top */
     #loading-content {
       position: relative;
       z-index: 2;
@@ -56,7 +56,7 @@
       justify-content: center;
       height: 100%;
     }
-    /* Loading logo (225px wide) */
+    /* Increased logo size for the loading screen (225px wide) */
     #loading-logo {
       width: 225px;
       height: auto;
@@ -68,30 +68,16 @@
       font-weight: 600;
       color: var(--text-color);
     }
-    /* Progress Bar Container */
-    #progress-container {
-      width: 80%;
-      height: 5px;
-      background-color: #ddd;
-      margin-top: 20px;
-    }
-    /* Progress Bar */
-    #progress-bar {
-      width: 0%;
-      height: 100%;
-      background-color: var(--primary-color);
-      transition: width 0.3s ease;
-    }
     /* Header container (adjustable via variable) */
     #header-container {
       position: relative;
       height: var(--header-height);
       display: flex;
-      align-items: center;
+      align-items: center;  /* vertically centers children */
       justify-content: space-between;
       padding: 0 10px;
     }
-    /* Title styling – aligned to the left */
+    /* Header title styling – aligned to the left */
     #header-container h2 {
       margin: 0;
       font-weight: 600;
@@ -99,13 +85,13 @@
       flex-grow: 1;
       text-align: left;
     }
-    /* Logo styling – fills header height and maintains proportional width */
+    /* Header logo: fills header height and maintains proportional width */
     #logo {
       height: 100%;
       width: auto;
       object-fit: contain;
     }
-    /* 360 Viewer Container: PC vs Mobile via media queries */
+    /* 360 Viewer Container: different heights for PC and Mobile */
     #panorama {
       width: 100vw;
       margin-top: 10px;
@@ -114,7 +100,7 @@
       #panorama { height: 100vh; }
     }
     @media (max-width: 768px) {
-      #panorama { height: 83.5vh; }
+      #panorama { height: calc(83.5vh - var(--header-height)); }
     }
     /* Bubble Navigation Container */
     #bubble-container {
@@ -138,14 +124,14 @@
       height: 60px;
       border-radius: 50%;
       overflow: hidden;
-      border: 1px solid var(--primary-color); /* 1px black border */
+      border: 1px solid var(--primary-color);
       background: #fff;
     }
     .bubble img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      /* Animation: image zoomed in and pans horizontally over 6 sec */
+      /* Animation: full-quality image is zoomed in and pans horizontally over 6 sec */
       animation: bubblePan 6s linear infinite alternate-reverse;
     }
     @keyframes bubblePan {
@@ -160,7 +146,6 @@
     }
     /* Mobile adjustments */
     @media (max-width: 768px) {
-      #header-container { height: var(--header-height); padding: 0 10px; }
       #header-container h2 { font-size: 10px; }
       #logo { height: 100%; width: auto; object-fit: contain; }
       #loading-logo { width: 150px; }
@@ -172,7 +157,7 @@
 </head>
 <body>
   <!-- Loading Screen Overlay -->
-  <div id="loading-screen">
+  <div id="loading-screen" role="alert">
     <div id="loading-bg"></div>
     <div id="loading-content">
       <img id="loading-logo" alt="Logo">
@@ -183,19 +168,20 @@
     </div>
   </div>
   
-  <!-- Header with title and logo -->
-  <div id="header-container">
+  <!-- Header (role="banner") -->
+  <header id="header-container">
     <h2>360° Virtual Walkthrough</h2>
     <img id="logo" alt="Logo">
-  </div>
+  </header>
   
-  <div id="content-wrapper">
+  <!-- Main Content (role="main") -->
+  <main id="content-wrapper">
     <!-- 360 Viewer Container -->
     <div id="panorama"></div>
-  </div>
+  </main>
   
-  <!-- Bubble Navigation Container -->
-  <div id="bubble-container">
+  <!-- Navigation (role="navigation") -->
+  <nav id="bubble-container">
     <div class="bubble-item" data-scene="living">
       <div class="bubble"><img alt="Living Room Preview"></div>
       <div class="bubble-label">Living Room</div>
@@ -212,7 +198,7 @@
       <div class="bubble"><img alt="Master Bedroom Preview"></div>
       <div class="bubble-label">Master Bedroom</div>
     </div>
-  </div>
+  </nav>
   
   <script>
     /* ---------------------------------------------------
@@ -352,7 +338,7 @@
     --------------------------------------------------- */
     async function initAll() {
       await Promise.all([initViewer(), initBubbles()]);
-      // Hide the loading screen once everything is fully loaded
+      // Hide the loading screen once both are fully loaded
       document.getElementById("loading-screen").style.display = "none";
     }
     initAll();
