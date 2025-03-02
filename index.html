@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>360° Walkthrough | Yagneshwaran Design Group</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Pannellum -->
+  <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
+  <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css" />
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding-top: 40px; /* Space for fixed header */
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #loading-logo {
+      width: 225px;
+      margin-bottom: 20px;
+    }
+
+    #loading-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    /* Header */
+    #header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+
+    #header-container h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1C1C1B;
+    }
+
+    #logo {
+      height: 30px;
+      width: auto;
+    }
+
+    /* 360 Viewer */
+    #panorama {
+      width: 100vw;
+      height: calc(100vh - 40px);
+    }
+
+    /* Bubble Navigation */
+    #bubble-container {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      z-index: 150;
+    }
+
+    .bubble {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1px solid #1C1C1B;
+      overflow: hidden;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .bubble img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: bubblePan 6s linear infinite alternate-reverse;
+    }
+
+    .bubble-label {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1C1C1B;
+    }
+
+    @keyframes bubblePan {
+      0% { transform: scale(1.8) translateX(0%); }
+      100% { transform: scale(1.8) translateX(20%); }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      #header-container { padding: 0 10px; }
+      #header-container h2 { font-size: 12px; }
+      #logo { height: 25px; }
+      
+      .bubble {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .bubble-label {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <img id="loading-logo" src="logo.jpg" alt="Loading Logo">
+    <div id="loading-text">Your 360° Virtual Walkthrough is setting up...</div>
+  </div>
+
+  <!-- Header -->
+  <div id="header-container">
+    <h2>360° Virtual Walkthrough</h2>
+    <img id="logo" src="logo.jpg" alt="Company Logo">
+  </div>
+
+  <!-- 360 Viewer -->
+  <div id="panorama"></div>
+
+  <!-- Bubble Navigation -->
+  <div id="bubble-container">
+    <div class="bubble-item" data-scene="living">
+      <div class="bubble"><img src="living.jpg" alt="Living Room"></div>
+      <div class="bubble-label">Living Room</div>
+    </div>
+    <div class="bubble-item" data-scene="kitchen">
+      <div class="bubble"><img src="kitchen.jpg" alt="Kitchen"></div>
+      <div class="bubble-label">Kitchen</div>
+    </div>
+    <div class="bubble-item" data-scene="balcony">
+      <div class="bubble"><img src="balcony.jpg" alt="Balcony"></div>
+      <div class="bubble-label">Balcony</div>
+    </div>
+    <div class="bubble-item" data-scene="mbed">
+      <div class="bubble"><img src="mbed.jpg" alt="Master Bedroom"></div>
+      <div class="bubble-label">Master Bedroom</div>
+    </div>
+  </div>
+
+  <script>
+    // Scene Configuration
+    const sceneConfig = {
+      living: "hall", // Map 'living' scene to hall.jpg
+      kitchen: "kitchen",
+      balcony: "balcony",
+      mbed: "mbed"
+    };
+
+    // Initialize Viewer
+    async function initViewer() {
+      try {
+        const scenes = {};
+        
+        // Load all scenes
+        for (const [sceneId, fileName] of Object.entries(sceneConfig)) {
+          scenes[sceneId] = {
+            type: "equirectangular",
+            panorama: `${fileName}.jpg`,
+            hotSpots: []
+          };
+        }
+
+        window.viewer = pannellum.viewer('panorama', {
+          default: {
+            firstScene: 'living',
+            sceneFadeDuration: 1000,
+            showZoomCtrl: true,
+            minHfov: 30,
+            maxHfov: 80
+          },
+          scenes: scenes
+        });
+
+      } catch (error) {
+        console.error("Viewer initialization failed:", error);
+      }
+    }
+
+    // Initialize Bubble Navigation
+    function initBubbles() {
+      document.querySelectorAll('.bubble-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const scene = item.dataset.scene;
+          if (window.viewer) {
+            window.viewer.loadScene(scene);
+          }
+        });
+      });
+    }
+
+    // Initialize Everything
+    async function initAll() {
+      try {
+        await initViewer();
+        initBubbles();
+        document.getElementById('loading-screen').style.display = 'none';
+      } catch (error) {
+        console.error("Initialization failed:", error);
+        document.getElementById('loading-text').textContent = 
+          "Failed to load. Please check your internet connection.";
+      }
+    }
+
+    // Start Experience
+    initAll();
+  </script>
+</body>
+</html>
