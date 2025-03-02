@@ -16,7 +16,7 @@
     body {
       font-family: "Poppins", sans-serif;
       margin: 0;
-      padding-top: 40px; /* Space for fixed header */
+      padding-top: 40px;
     }
 
     /* Loading Screen */
@@ -26,12 +26,30 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.95);
+      background: #fff;
       z-index: 200;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
+    }
+
+    #loading-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('loading.jpg') center center no-repeat;
+      background-size: cover;
+      opacity: 0.25;
+      z-index: 1;
+    }
+
+    #loading-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
     }
 
     #loading-logo {
@@ -125,29 +143,25 @@
       #header-container { padding: 0 10px; }
       #header-container h2 { font-size: 12px; }
       #logo { height: 25px; }
-      
-      .bubble {
-        width: 50px;
-        height: 50px;
-      }
-      
-      .bubble-label {
-        font-size: 12px;
-      }
+      .bubble { width: 50px; height: 50px; }
+      .bubble-label { font-size: 12px; }
     }
   </style>
 </head>
 <body>
   <!-- Loading Screen -->
   <div id="loading-screen">
-    <img id="loading-logo" src="logo.jpg" alt="Loading Logo">
-    <div id="loading-text">Your 360° Virtual Walkthrough is setting up...</div>
+    <div id="loading-bg"></div>
+    <div id="loading-content">
+      <img id="loading-logo" alt="Loading Logo">
+      <div id="loading-text">Your 360° Virtual Walkthrough is setting up...</div>
+    </div>
   </div>
 
   <!-- Header -->
   <div id="header-container">
     <h2>360° Virtual Walkthrough</h2>
-    <img id="logo" src="logo.jpg" alt="Company Logo">
+    <img id="logo" alt="Company Logo">
   </div>
 
   <!-- 360 Viewer -->
@@ -156,31 +170,48 @@
   <!-- Bubble Navigation -->
   <div id="bubble-container">
     <div class="bubble-item" data-scene="living">
-      <div class="bubble"><img src="living.jpg" alt="Living Room"></div>
+      <div class="bubble"><img alt="Living Room"></div>
       <div class="bubble-label">Living Room</div>
     </div>
     <div class="bubble-item" data-scene="kitchen">
-      <div class="bubble"><img src="kitchen.jpg" alt="Kitchen"></div>
+      <div class="bubble"><img alt="Kitchen"></div>
       <div class="bubble-label">Kitchen</div>
     </div>
     <div class="bubble-item" data-scene="balcony">
-      <div class="bubble"><img src="balcony.jpg" alt="Balcony"></div>
+      <div class="bubble"><img alt="Balcony"></div>
       <div class="bubble-label">Balcony</div>
     </div>
     <div class="bubble-item" data-scene="mbed">
-      <div class="bubble"><img src="mbed.jpg" alt="Master Bedroom"></div>
+      <div class="bubble"><img alt="Master Bedroom"></div>
       <div class="bubble-label">Master Bedroom</div>
     </div>
   </div>
 
   <script>
-    // Scene Configuration
-    const sceneConfig = {
-      living: "hall", // Map 'living' scene to hall.jpg
-      kitchen: "kitchen",
-      balcony: "balcony",
-      mbed: "mbed"
-    };
+    // Image Loading System
+    const fileMapping = { "living": "hall" };
+
+    function loadImageWithFallback(imgElement, baseName) {
+      const formats = [".jpg", ".jpeg", ".png"];
+      let index = 0;
+      
+      function tryNext() {
+        if (index >= formats.length) {
+          console.error(`Image not found: ${baseName}`);
+          return;
+        }
+        imgElement.src = baseName + formats[index];
+        imgElement.onerror = () => {
+          index++;
+          tryNext();
+        };
+      }
+      tryNext();
+    }
+
+    // Load logos
+    loadImageWithFallback(document.getElementById("logo"), "logo");
+    loadImageWithFallback(document.getElementById("loading-logo"), "logo");
 
     // Initialize Viewer
     async function initViewer() {
@@ -188,10 +219,15 @@
         const scenes = {};
         
         // Load all scenes
-        for (const [sceneId, fileName] of Object.entries(sceneConfig)) {
+        for (const sceneElement of document.querySelectorAll('.bubble-item')) {
+          const sceneId = sceneElement.dataset.scene;
+          const baseName = fileMapping[sceneId] || sceneId;
+          const imgElement = sceneElement.querySelector('img');
+          loadImageWithFallback(imgElement, baseName);
+          
           scenes[sceneId] = {
             type: "equirectangular",
-            panorama: `${fileName}.jpg`,
+            panorama: `${baseName}.jpg`,
             hotSpots: []
           };
         }
