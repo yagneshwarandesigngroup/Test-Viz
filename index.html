@@ -72,21 +72,23 @@
             line-height: 1.5;
         }
 
-        /* Know More Button */
-        #know-more {
+        /* Pullout Arrow */
+        #pullout {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 50%;
+            left: 0;
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 15px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 20px;
+            border-radius: 0 5px 5px 0;
+            transform: translateY(-50%);
             transition: background 0.3s;
         }
 
-        #know-more:hover {
+        #pullout:hover {
             background: rgba(255, 255, 255, 0.4);
         }
 
@@ -130,14 +132,14 @@
     <!-- 360 Viewer -->
     <div id="viewer"></div>
 
-    <!-- Know More Sidebar -->
+    <!-- Sidebar -->
     <div id="sidebar">
         <img src="logo.png" alt="Logo">
         <p id="image-info">Project details will be shown here.</p>
     </div>
 
-    <!-- Know More Button -->
-    <button id="know-more">Know More</button>
+    <!-- Pullout Arrow -->
+    <button id="pullout">▶</button>
 
     <!-- Navigation Buttons (Using 360° Images Directly) -->
     <div id="nav-bar">
@@ -152,7 +154,15 @@
         var viewer = pannellum.viewer('viewer', {
             type: 'equirectangular',
             panorama: 'hall.png',  // Default image
-            autoLoad: true
+            autoLoad: true,
+            autoRotate: -1,  // Slow auto-rotation
+            minPitch: -30,  // Prevent too much tilt
+            maxPitch: 30,
+            minYaw: -180,
+            maxYaw: 180,
+            hfov: 90,  // Reduce zoom-out by 25%
+            maxHfov: 110,
+            minHfov: 70
         });
 
         // Hide Loading Screen After Load
@@ -173,9 +183,15 @@
         }
 
         // Sidebar Toggle
-        document.getElementById("know-more").addEventListener("click", function () {
+        document.getElementById("pullout").addEventListener("click", function () {
             let sidebar = document.getElementById("sidebar");
-            sidebar.style.left = sidebar.style.left === "0px" ? "-350px" : "0px";
+            if (sidebar.style.left === "0px") {
+                sidebar.style.left = "-350px";
+                this.innerHTML = "▶";
+            } else {
+                sidebar.style.left = "0px";
+                this.innerHTML = "◀";
+            }
         });
     </script>
 
