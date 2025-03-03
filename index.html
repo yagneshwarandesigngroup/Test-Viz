@@ -102,7 +102,8 @@
     }
     /* Header logo: fills header height and maintains proportional width; 50% bigger than before */
     #logo {
-      height: 100%;   /* originally 40px; now we set the logo height to fill 100% of header */\n      /* To make it 50% bigger, we use 150% of header height (e.g., 60px if header is 40px) */\n      height: 150%;\n      width: auto;\n      object-fit: contain;\n      transform: translateY(-25%);  /* shift up to center the larger logo within the header */\n    }
+      height: 100%;
+      transform: translateY(10%)  /* originally 40px; now we set the logo height to fill 100% of header */\n      /* To make it 50% bigger, we use 150% of header height (e.g., 60px if header is 40px) */\n      height: 150%;\n      width: auto;\n      object-fit: contain;\n      transform: translateY(-25%);  /* shift up to center the larger logo within the header */\n    }
     /* 360 Viewer Container: for PC fills full screen; for mobile, adjust accordingly */
     #panorama {
       width: 100vw;
