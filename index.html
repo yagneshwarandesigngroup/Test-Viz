@@ -33,34 +33,13 @@
         }
 
         #loading-screen img {
-            width: 200px;
-            margin-bottom: 10px;
-        }
-
-        #loading-logo {
             width: 150px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         #loading-text {
             font-size: 16px;
             color: #333;
-            margin-bottom: 10px;
-        }
-
-        #loading-bar {
-            width: 60%;
-            height: 5px;
-            background: #ddd;
-            position: relative;
-            overflow: hidden;
-        }
-
-        #loading-progress {
-            width: 0%;
-            height: 100%;
-            background: #333;
-            transition: width 2s ease-in-out;
         }
 
         /* 360 Viewer */
@@ -69,17 +48,17 @@
             height: 100vh;
         }
 
-        /* Know More Sidebar */
+        /* Sidebar */
         #sidebar {
             position: fixed;
-            right: -350px;
+            left: -350px;
             top: 0;
             width: 350px;
             height: 100%;
             background: rgba(0, 0, 0, 0.9);
             color: white;
             padding: 20px;
-            transition: right 0.4s ease-in-out;
+            transition: left 0.4s ease-in-out;
         }
 
         #sidebar img {
@@ -97,7 +76,7 @@
         #know-more {
             position: fixed;
             top: 20px;
-            right: 20px;
+            left: 20px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: none;
@@ -111,43 +90,41 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
-        /* Navigation Buttons */
-        #nav-buttons {
+        /* Bottom Navigation Bar */
+        #nav-bar {
             position: fixed;
-            width: 100%;
             bottom: 20px;
+            width: 100%;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
         }
 
+        /* Thumbnail Navigation Buttons */
         .nav-button {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            font-size: 14px;
+            border: 2px solid white;
+            background-size: cover;
+            background-position: center;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s ease-in-out;
+            transition: transform 0.3s ease-in-out, border 0.3s;
         }
 
         .nav-button:hover {
-            background: rgba(255, 255, 255, 0.4);
             transform: scale(1.1);
+            border-color: yellow;
         }
-
     </style>
 </head>
 <body>
 
     <!-- Loading Screen -->
     <div id="loading-screen">
-        <img id="loading-logo" src="logo.png" alt="Logo">
+        <img src="logo.png" alt="Logo">
         <img src="loading.jpg" alt="Loading">
         <p id="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
-        <div id="loading-bar"><div id="loading-progress"></div></div>
     </div>
 
     <!-- 360 Viewer -->
@@ -162,12 +139,12 @@
     <!-- Know More Button -->
     <button id="know-more">Know More</button>
 
-    <!-- Navigation Buttons -->
-    <div id="nav-buttons">
-        <button class="nav-button" onclick="changeView('hall.png', 'Living Room')">Hall</button>
-        <button class="nav-button" onclick="changeView('kitchen.png', 'Kitchen')">Kitchen</button>
-        <button class="nav-button" onclick="changeView('mbed.png', 'Master Bedroom')">Bedroom</button>
-        <button class="nav-button" onclick="changeView('balcony.png', 'Balcony')">Balcony</button>
+    <!-- Navigation Buttons (Using 360° Images Directly) -->
+    <div id="nav-bar">
+        <button class="nav-button" onclick="changeView('hall.png', 'Living Room')" style="background-image: url('hall.png');"></button>
+        <button class="nav-button" onclick="changeView('kitchen.png', 'Kitchen')" style="background-image: url('kitchen.png');"></button>
+        <button class="nav-button" onclick="changeView('mbed.png', 'Master Bedroom')" style="background-image: url('mbed.png');"></button>
+        <button class="nav-button" onclick="changeView('balcony.png', 'Balcony')" style="background-image: url('balcony.png');"></button>
     </div>
 
     <script>
@@ -178,9 +155,8 @@
             autoLoad: true
         });
 
-        // Loading Effect
+        // Hide Loading Screen After Load
         window.onload = function() {
-            document.getElementById("loading-progress").style.width = "100%";
             setTimeout(() => {
                 document.getElementById("loading-screen").style.display = "none";
             }, 2000);
@@ -189,18 +165,17 @@
         // Function to change the view
         function changeView(image, description) {
             viewer.loadScene({
-                type: 'equirectangular',
-                panorama: image
+                type: "equirectangular",
+                panorama: image,
+                autoLoad: true
             });
-
-            // Update sidebar info
-            document.getElementById("image-info").innerHTML = `<strong>${description}</strong><br>Explore the ${description}.`;
+            document.getElementById("image-info").innerText = description;
         }
 
-        // Know More Sidebar Toggle
-        document.getElementById("know-more").addEventListener("click", function() {
+        // Sidebar Toggle
+        document.getElementById("know-more").addEventListener("click", function () {
             let sidebar = document.getElementById("sidebar");
-            sidebar.style.right = sidebar.style.right === "0px" ? "-350px" : "0px";
+            sidebar.style.left = sidebar.style.left === "0px" ? "-350px" : "0px";
         });
     </script>
 
