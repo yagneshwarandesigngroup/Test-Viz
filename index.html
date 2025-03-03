@@ -1,360 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>360° Walkthrough | Yagneshwaran Design Group</title>
-  
-  <!-- Import Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  
-  <!-- Pannellum for 360° viewer (Using CDN) -->
-  <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
-  <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css" />
-  
-  <style>
-    :root {
-      --primary-color: #1C1C1B;
-      --text-color: #1C1C1B;
-      --header-height: 40px;
-    }
-    body { 
-      font-family: "Poppins", sans-serif; 
-      margin: 0; 
-      text-align: center; 
-      background: #fff;
-    }
-    /* Loading Screen Overlay */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #fff; /* white background */
-      z-index: 200;
-    }
-    /* Loading Background Image with 25% opacity */
-    #loading-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('loading.jpg') center center no-repeat;
-      background-size: cover;
-      opacity: 0.25;
-      z-index: 1;
-    }
-    /* Loading Content: logo, text and progress bar */
-    #loading-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
-    /* Loading logo (225px wide) */
-    #loading-logo {
-      width: 225px;
-      height: auto;
-      object-fit: cover;
-      margin-bottom: 20px;
-    }
-    #loading-text {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text-color);
-    }
-    /* Progress Bar Container */
-    #progress-container {
-      width: 80%;
-      height: 5px;
-      background-color: #ddd;
-      margin-top: 20px;
-    }
-    /* Progress Bar */
-    #progress-bar {
-      width: 0%;
-      height: 100%;
-      background-color: var(--primary-color);
-      transition: width 0.3s ease;
-    }
-    /* Header container (adjustable via variable) */
-    #header-container {
-      position: relative;
-      height: var(--header-height);
-      display: flex;
-      align-items: center;  /* vertically centers children */
-      justify-content: space-between;
-      padding: 0 10px;
-    }
-    /* Header title styling – aligned to the left, centered vertically */
-    #header-container h2 {
-      margin: 0;
-      font-weight: 600;
-      font-size: 12px;
-      flex-grow: 1;
-      text-align: left;
-      transform: translateY(0%);  /* Remove any vertical offset */
-    }
-    /* Header logo: fills header height and maintains proportional width; 50% bigger than before */
-    #logo {
-      height: 100%;
-      transform: translateY(10%)  /* originally 40px; now we set the logo height to fill 100% of header */\n      /* To make it 50% bigger, we use 150% of header height (e.g., 60px if header is 40px) */\n      height: 150%;\n      width: auto;\n      object-fit: contain;\n      transform: translateY(-25%);  /* shift up to center the larger logo within the header */\n    }
-    /* 360 Viewer Container: for PC fills full screen; for mobile, adjust accordingly */
-    #panorama {
-      width: 100vw;
-      margin-top: 10px;
-    }
-    @media (min-width: 769px) {
-      #panorama { height: 100vh; }
-    }
-    @media (max-width: 768px) {
-      #panorama { height: calc(83.5vh - var(--header-height)); }
-    }
-    /* Bubble Navigation Container */
-    #bubble-container {
-      position: fixed;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      z-index: 150;
-    }
-    .bubble-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-    }
-    .bubble {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 1px solid var(--primary-color);
-      background: #fff;
-    }
-    .bubble img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      /* Animation: full-quality image is zoomed in and pans horizontally over 6 sec */
-      animation: bubblePan 6s linear infinite alternate-reverse;
-    }
-    @keyframes bubblePan {
-      0% { transform: scale(1.8) translateX(0%); }
-      100% { transform: scale(1.8) translateX(20%); }
-    }
-    .bubble-label {
-      margin-top: 5px;
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--primary-color);
-    }
-    /* Mobile adjustments */
-    @media (max-width: 768px) {
-      #header-container h2 { font-size: 10px; }
-      #logo { height: 150%; width: auto; object-fit: contain; transform: translateY(-25%); }
-      #loading-logo { width: 150px; }
-      #loading-text { font-size: 16px; }
-      .bubble { width: 50px; height: 50px; }
-      .bubble-label { font-size: 9px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360° Virtual Walkthrough</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: black;
+            overflow: hidden;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        #loading-bar {
+            width: 60%;
+            height: 5px;
+            background: #444;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        #loading-progress {
+            width: 0%;
+            height: 100%;
+            background: white;
+            transition: width 2s ease-in-out;
+        }
+
+        /* 360 Viewer */
+        #viewer {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        #image-container {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Know More Sidebar */
+        #sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            transition: left 0.3s ease-in-out;
+        }
+
+        #sidebar img {
+            width: 120px;
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        #sidebar p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Know More Button */
+        #know-more {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        #know-more:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Navigation Buttons */
+        #nav-buttons {
+            position: fixed;
+            width: 100%;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .nav-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+    </style>
 </head>
 <body>
-  <!-- Loading Screen Overlay (role="alert") -->
-  <div id="loading-screen" role="alert">
-    <div id="loading-bg"></div>
-    <div id="loading-content">
-      <img id="loading-logo" alt="Logo">
-      <div id="loading-text">Your 360° Virtual Walkthrough is setting up...</div>
-      <div id="progress-container">
-        <div id="progress-bar"></div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Header (role="banner") -->
-  <header id="header-container">
-    <h2>360° Virtual Walkthrough TEST</h2>
-    <img id="logo" alt="Logo">
-  </header>
-  
-  <!-- Main Content (role="main") -->
-  <main id="content-wrapper">
-    <!-- 360 Viewer Container -->
-    <div id="panorama"></div>
-  </main>
-  
-  <!-- Navigation (role="navigation") -->
-  <nav id="bubble-container">
-    <div class="bubble-item" data-scene="living">
-      <div class="bubble"><img alt="Living Room Preview"></div>
-      <div class="bubble-label">Living Room</div>
-    </div>
-    <div class="bubble-item" data-scene="kitchen">
-      <div class="bubble"><img alt="Kitchen Preview"></div>
-      <div class="bubble-label">Kitchen</div>
-    </div>
-    <div class="bubble-item" data-scene="balcony">
-      <div class="bubble"><img alt="Balcony Preview"></div>
-      <div class="bubble-label">Balcony</div>
-    </div>
-    <div class="bubble-item" data-scene="mbed">
-      <div class="bubble"><img alt="Master Bedroom Preview"></div>
-      <div class="bubble-label">Master Bedroom</div>
-    </div>
-  </nav>
-  
-  <script>
-    /* ---------------------------------------------------
-       Mapping: Scene ID to File Base Name
-       For the living room, file name is "hall"
-    --------------------------------------------------- */
-    const fileMapping = { "living": "hall" };
 
-    /* Global progress counter and total images (adjust if needed) */
-    let imagesLoaded = 0;
-    const totalImages = 8; // 4 for viewer + 4 for bubbles
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <p>Your 360° Virtual Walkthrough is setting up...</p>
+        <div id="loading-bar"><div id="loading-progress"></div></div>
+    </div>
 
-    function updateProgress() {
-      imagesLoaded++;
-      const percent = (imagesLoaded / totalImages) * 100;
-      document.getElementById("progress-bar").style.width = percent + "%";
-    }
+    <!-- 360 Viewer -->
+    <div id="viewer">
+        <div id="image-container"></div>
+    </div>
 
-    /* ---------------------------------------------------
-       Logo Fallback (Synchronous)
-    --------------------------------------------------- */
-    function loadImageWithFallback(imgElement, baseName, formats) {
-      let index = 0;
-      function tryNext() {
-        if (index >= formats.length) return;
-        imgElement.src = baseName + formats[index];
-        index++;
-      }
-      imgElement.onerror = tryNext;
-      tryNext();
-    }
-    // Load logo for header and loading screen
-    loadImageWithFallback(document.getElementById("logo"), "logo", [".jpg", ".jpeg", ".png"]);
-    loadImageWithFallback(document.getElementById("loading-logo"), "logo", [".jpg", ".jpeg", ".png"]);
+    <!-- Know More Sidebar -->
+    <div id="sidebar">
+        <img src="logo.png" alt="Logo">
+        <p id="image-info">Project details will be shown here.</p>
+    </div>
 
-    /* ---------------------------------------------------
-       Async Image Loader with Fallback and progress update
-    --------------------------------------------------- */
-    async function getCompatibleImageURL(baseName, formats) {
-      for (const ext of formats) {
-        const url = baseName + ext;
-        try {
-          await new Promise((resolve, reject) => {
-            const img = new Image();
-            img.crossOrigin = "Anonymous";
-            img.onload = () => { resolve(); updateProgress(); };
-            img.onerror = reject;
-            img.src = url;
-          });
-          return url;
-        } catch(e) {
-          // Try next extension
+    <!-- Know More Button -->
+    <button id="know-more">Know More</button>
+
+    <!-- Navigation Buttons -->
+    <div id="nav-buttons">
+        <button class="nav-button" onclick="changeView('hall.png', 'Living Room')">Hall</button>
+        <button class="nav-button" onclick="changeView('kitchen.png', 'Kitchen')">Kitchen</button>
+        <button class="nav-button" onclick="changeView('mbed.png', 'Master Bedroom')">Bedroom</button>
+        <button class="nav-button" onclick="changeView('balcony.png', 'Balcony')">Balcony</button>
+    </div>
+
+    <script>
+        // Loading Effect
+        window.onload = function() {
+            document.getElementById("loading-progress").style.width = "100%";
+            setTimeout(() => {
+                document.getElementById("loading-screen").style.display = "none";
+                changeView('hall.png', 'Living Room'); // Default view
+            }, 2000);
+        };
+
+        // Function to change the view
+        function changeView(image, description) {
+            let container = document.getElementById("image-container");
+            container.style.backgroundImage = `url('${image}')`;
+
+            // Update sidebar info
+            document.getElementById("image-info").innerHTML = `<strong>${description}</strong><br>Explore the ${description}.`;
         }
-      }
-      return "";
-    }
 
-    // Helper function to get panorama URL (using mapping for living room)
-    async function getPanoramaURL(sceneName) {
-      const baseName = fileMapping[sceneName] || sceneName;
-      return await getCompatibleImageURL(baseName, [".jpg", ".jpeg", ".png"]);
-    }
-
-    /* ---------------------------------------------------
-       Initialize Pannellum Viewer
-    --------------------------------------------------- */
-    async function initViewer() {
-      try {
-        const livingURL = await getPanoramaURL("living");
-        const kitchenURL = await getPanoramaURL("kitchen");
-        const balconyURL = await getPanoramaURL("balcony");
-        const mbedURL = await getPanoramaURL("mbed");
-
-        window.viewer = pannellum.viewer('panorama', {
-          default: {
-            firstScene: 'living',
-            autoLoad: true,
-            showZoomCtrl: true,
-            minPitch: -120,
-            maxPitch: 120,
-            minYaw: -180,
-            maxYaw: 180,
-            minHfov: 80,
-            maxHfov: 120
-          },
-          scenes: {
-            living: {
-              type: 'equirectangular',
-              panorama: livingURL,
-              hotSpots: []
-            },
-            kitchen: {
-              type: 'equirectangular',
-              panorama: kitchenURL,
-              hotSpots: []
-            },
-            balcony: {
-              type: 'equirectangular',
-              panorama: balconyURL,
-              hotSpots: []
-            },
-            mbed: {
-              type: 'equirectangular',
-              panorama: mbedURL,
-              hotSpots: []
-            }
-          }
+        // Know More Sidebar Toggle
+        document.getElementById("know-more").addEventListener("click", function() {
+            let sidebar = document.getElementById("sidebar");
+            sidebar.style.left = sidebar.style.left === "0px" ? "-300px" : "0px";
         });
-      } catch (error) {
-        console.error("Error initializing viewer:", error);
-      }
-    }
+    </script>
 
-    /* ---------------------------------------------------
-       Initialize Bubble Previews (Using Full-Quality Image)
-    --------------------------------------------------- */
-    async function initBubbles() {
-      const bubbleItems = document.querySelectorAll(".bubble-item");
-      for (const item of bubbleItems) {
-        const scene = item.getAttribute("data-scene");
-        try {
-          const panoURL = await getPanoramaURL(scene);
-          item.querySelector(".bubble img").src = panoURL;
-        } catch (error) {
-          console.error("Error loading full-quality preview for", scene, error);
-        }
-        item.addEventListener("click", function() {
-          if (window.viewer) {
-            window.viewer.loadScene(scene);
-          }
-        });
-      }
-    }
-
-    /* ---------------------------------------------------
-       Combined Initialization: Wait for viewer and bubbles to load
-    --------------------------------------------------- */
-    async function initAll() {
-      await Promise.all([initViewer(), initBubbles()]);
-      // Hide the loading screen once both are fully loaded
-      document.getElementById("loading-screen").style.display = "none";
-    }
-    initAll();
-  </script>
 </body>
 </html>
