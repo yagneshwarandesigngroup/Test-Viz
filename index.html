@@ -24,8 +24,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      /* Dark to white gradient background */
-      background: linear-gradient(to bottom, #000, #fff);
+      /* Pure black background for better contrast */
+      background: #000;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -33,14 +33,14 @@
       text-align: center;
       z-index: 10;
     }
-    /* White fade overlay for loading image */
+    /* Dark fade overlay for loading image */
     .loading-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: white;
+      background: black;
       opacity: 0.8;
       z-index: 1;
     }
@@ -64,7 +64,7 @@
     .loading-text {
       font-size: 18px;
       font-weight: bold;
-      color: #333;
+      color: #fff; /* Changed to white for better contrast */
       position: relative;
       z-index: 2;
     }
@@ -214,8 +214,8 @@ Balcony: A private balcony with a stunning view, offering a peaceful escape from
         "minPitch": -120,
         "maxPitch": 120,
         "hfov": 90,
-        "minHfov": 40,
-        "maxHfov": 80   // Increased by 20% from 80
+        "minHfov": 30,
+        "maxHfov": 96   // Increased by 20% from 80
       },
       "scenes": {
         "hall": {
