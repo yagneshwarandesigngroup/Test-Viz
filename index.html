@@ -1,242 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>360° Virtual Walkthrough</title>
-    <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: black;
-            overflow: hidden;
-        }
-
-        /* Loading Screen */
-        #loading-screen {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            text-align: center;
-        }
-
-        #loading-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('loading.jpg') center/cover no-repeat;
-            opacity: 0.8;
-        }
-
-        #loading-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        #loading-content img {
-            width: 180px; /* Increased size */
-            margin-bottom: 15px;
-        }
-
-        #loading-text {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* 360 Viewer */
-        #viewer {
-            width: 100vw;
-            height: 100vh;
-        }
-
-        /* Sidebar */
-        #sidebar {
-            position: fixed;
-            left: -350px;
-            top: 0;
-            width: 350px;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px;
-            transition: left 0.4s ease-in-out;
-        }
-
-        #sidebar img {
-            width: 120px;
-            display: block;
-            margin: 0 auto 20px;
-        }
-
-        #image-info {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* Pullout Arrow */
-        #pullout {
-            position: fixed;
-            top: 50%;
-            left: 0;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: 0 5px 5px 0;
-            transform: translateY(-50%);
-            transition: background 0.3s;
-        }
-
-        #pullout:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Bottom Navigation Bar */
-        #nav-bar {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-        }
-
-        /* Thumbnail Navigation Buttons */
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .nav-button {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            border: 2px solid white;
-            background-size: cover;
-            background-position: center;
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out, border 0.3s;
-        }
-
-        .nav-button:hover {
-            transform: scale(1.1);
-            border-color: yellow;
-        }
-
-        .nav-label {
-            font-size: 14px;
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>360° Virtual Walkthrough</title>
+  <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
+  <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background: black;
+      overflow: hidden;
+    }
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 10;
+    }
+    /* White fade overlay for loading image */
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      opacity: 0.8;
+      z-index: 1;
+    }
+    /* Loading image fills the screen */
+    .loading-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    /* Logo and text appear above overlay */
+    .loading-logo {
+      width: 180px;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
+    }
+    .loading-text {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      position: relative;
+      z-index: 2;
+    }
+    /* 360 Viewer */
+    #viewer {
+      width: 100vw;
+      height: 100vh;
+    }
+    /* Navigation Bar */
+    #navigation {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      z-index: 5;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .nav-item img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid white;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s, border 0.3s;
+    }
+    .nav-item img:hover {
+      transform: scale(1.1);
+      border-color: yellow;
+    }
+    .nav-item span {
+      font-size: 14px;
+      color: black;
+      margin-top: 5px;
+    }
+    /* Info Panel (Sidebar) */
+    #info-panel {
+      position: fixed;
+      left: -350px;
+      top: 0;
+      width: 350px;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      color: white;
+      padding: 20px;
+      transition: left 0.4s ease-in-out;
+      z-index: 6;
+    }
+    #info-panel .pullout-arrow {
+      position: absolute;
+      top: 50%;
+      right: -30px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 10px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: background 0.3s;
+    }
+    #info-panel .pullout-arrow:hover {
+      background: rgba(255,255,255,0.4);
+    }
+    #info-panel .info-content {
+      margin-top: 50px;
+    }
+    #info-panel .info-logo {
+      width: 140px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+    #info-panel #info-text {
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-line;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div id="loading-background"></div>
-        <div id="loading-content">
-            <img src="logo.png" alt="Logo">
-            <p id="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
-        </div>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-overlay"></div>
+    <img src="loading.jpg" alt="Loading" class="loading-image">
+    <img src="logo.jpg" alt="Logo" class="loading-logo">
+    <p class="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
+  </div>
+  
+  <!-- 360 Viewer -->
+  <div id="viewer"></div>
+  
+  <!-- Navigation Bar -->
+  <div id="navigation">
+    <div class="nav-item" data-src="hall.png">
+      <img src="hall.png" alt="Living Room">
+      <span>Living Room</span>
     </div>
-
-    <!-- 360 Viewer -->
-    <div id="viewer"></div>
-
-    <!-- Sidebar -->
-    <div id="sidebar">
-        <img src="logo.png" alt="Logo">
-        <p id="image-info">Project details will be shown here.</p>
+    <div class="nav-item" data-src="kitchen.png">
+      <img src="kitchen.png" alt="Kitchen">
+      <span>Kitchen</span>
     </div>
-
-    <!-- Pullout Arrow -->
-    <button id="pullout">▶</button>
-
-    <!-- Navigation Buttons (Using 360° Images Directly) -->
-    <div id="nav-bar">
-        <div class="nav-item">
-            <button class="nav-button" onclick="changeView('hall.png', 'Living Room')" style="background-image: url('hall.png');"></button>
-            <span class="nav-label">Living Room</span>
-        </div>
-        <div class="nav-item">
-            <button class="nav-button" onclick="changeView('kitchen.png', 'Kitchen')" style="background-image: url('kitchen.png');"></button>
-            <span class="nav-label">Kitchen</span>
-        </div>
-        <div class="nav-item">
-            <button class="nav-button" onclick="changeView('mbed.png', 'Master Bedroom')" style="background-image: url('mbed.png');"></button>
-            <span class="nav-label">Master Bedroom</span>
-        </div>
-        <div class="nav-item">
-            <button class="nav-button" onclick="changeView('balcony.png', 'Balcony')" style="background-image: url('balcony.png');"></button>
-            <span class="nav-label">Balcony</span>
-        </div>
+    <div class="nav-item" data-src="mbed.png">
+      <img src="mbed.png" alt="Master Bedroom">
+      <span>Master Bedroom</span>
     </div>
+    <div class="nav-item" data-src="balcony.png">
+      <img src="balcony.png" alt="Balcony">
+      <span>Balcony</span>
+    </div>
+  </div>
+  
+  <!-- Info Panel (Sidebar) -->
+  <div id="info-panel">
+    <div class="pullout-arrow">❯</div>
+    <div class="info-content">
+      <img src="logo.jpg" alt="Logo" class="info-logo">
+      <p id="info-text">
+Living Room: A spacious and elegantly designed living room with natural light and high-end finishes. The perfect space for relaxing or entertaining guests, featuring premium flooring, stylish furniture, and a seamless connection to other areas of the home.
 
-    <script>
-        // Initialize Pannellum 360 Viewer
-        var viewer = pannellum.viewer('viewer', {
-            type: 'equirectangular',
-            panorama: 'hall.png',  // Default image
-            autoLoad: true,
-            autoRotate: -1,  // Slow auto-rotation
-            minPitch: -120,  // Prevent too much tilt
-            maxPitch: 120,
-            minYaw: -180,
-            maxYaw: 180,
-            hfov: 90,  // Reduce zoom-out by 25%
-            maxHfov: 80,
-            minHfov: 30
+Kitchen: A modern and functional kitchen with high-quality countertops, ample storage, and top-tier appliances. Designed for both efficiency and style, this space is ideal for creating culinary masterpieces.
+
+Master Bedroom: A luxurious master bedroom offering a serene retreat with ample space, soft lighting, and elegant interiors. The perfect blend of comfort and sophistication, ensuring restful nights and peaceful mornings.
+
+Balcony: A private balcony with a stunning view, offering a peaceful escape from daily life. Whether enjoying a morning coffee or an evening breeze, this space is designed for relaxation and enjoyment.
+      </p>
+    </div>
+  </div>
+  
+  <script>
+    // Initialize Pannellum 360 Viewer with updated settings
+    var viewer = pannellum.viewer('viewer', {
+      type: 'equirectangular',
+      panorama: 'hall.png',  // Default image
+      autoLoad: true,
+      autoRotate: -1,  // Slow auto-rotation
+      minPitch: -120,  // Prevent too much tilt
+      maxPitch: 120,
+      minYaw: -180,
+      maxYaw: 180,
+      hfov: 90,  // Reduced zoom-out by 25%
+      maxHfov: 80,
+      minHfov: 30
+    });
+    
+    // Update scene and info text when navigation item is clicked
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        viewer.loadScene({
+          type: 'equirectangular',
+          panorama: this.dataset.src
         });
-
-        // Hide Loading Screen After Load
-        window.onload = function() {
-            setTimeout(() => {
-                document.getElementById("loading-screen").style.display = "none";
-            }, 2000);
-        };
-
-        // Function to change the view
-        function changeView(image, description) {
-            viewer.loadScene({
-                type: "equirectangular",
-                panorama: image,
-                autoLoad: true
-            });
-            document.getElementById("image-info").innerText = description;
+        let infoText = '';
+        switch (this.dataset.src) {
+          case 'hall.png':
+            infoText = 'Living Room: A spacious and elegantly designed living room with natural light and high-end finishes. The perfect space for relaxing or entertaining guests, featuring premium flooring, stylish furniture, and a seamless connection to other areas of the home.';
+            break;
+          case 'kitchen.png':
+            infoText = 'Kitchen: A modern and functional kitchen with high-quality countertops, ample storage, and top-tier appliances. Designed for both efficiency and style, this space is ideal for creating culinary masterpieces.';
+            break;
+          case 'mbed.png':
+            infoText = 'Master Bedroom: A luxurious master bedroom offering a serene retreat with ample space, soft lighting, and elegant interiors. The perfect blend of comfort and sophistication, ensuring restful nights and peaceful mornings.';
+            break;
+          case 'balcony.png':
+            infoText = 'Balcony: A private balcony with a stunning view, offering a peaceful escape from daily life. Whether enjoying a morning coffee or an evening breeze, this space is designed for relaxation and enjoyment.';
+            break;
+          default:
+            infoText = 'Click a room to explore.';
         }
-
-        // Sidebar Toggle
-        document.getElementById("pullout").addEventListener("click", function () {
-            let sidebar = document.getElementById("sidebar");
-            if (sidebar.style.left === "0px") {
-                sidebar.style.left = "-350px";
-                this.innerHTML = "▶";
-            } else {
-                sidebar.style.left = "0px";
-                this.innerHTML = "◀";
-            }
-        });
-    </script>
-
+        document.getElementById('info-text').innerText = infoText;
+      });
+    });
+    
+    // Toggle Info Panel (Sidebar)
+    const pulloutArrow = document.querySelector('#info-panel .pullout-arrow');
+    pulloutArrow.addEventListener('click', function() {
+      const infoPanel = document.getElementById('info-panel');
+      if (infoPanel.style.left === '0px') {
+        infoPanel.style.left = '-350px';
+        this.innerHTML = '❯';
+      } else {
+        infoPanel.style.left = '0px';
+        this.innerHTML = '❮';
+      }
+    });
+    
+    // Hide the loading screen after the viewer is ready
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+      }, 2000);
+    });
+  </script>
 </body>
 </html>
