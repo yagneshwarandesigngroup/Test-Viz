@@ -55,10 +55,10 @@
     }
     /* Logo and text appear above overlay */
     .loading-logo {
-      width: 180px;  /* Original size */
-      margin-bottom: 15px;
-      position: center;
-      z-index: 2;
+      width: 225px;
+      height: auto;
+      object-fit: cover;
+      margin-bottom: 20px;
     }
     .loading-text {
       font-size: 18px;
@@ -142,8 +142,10 @@
       text-align: center;
     }
     .info-logo {
-      width: 140px;  /* Original size */
-      margin: 0 auto 20px;
+      height: 100%;  
+      width: auto;   
+      object-fit: contain;
+      transform: translateY(15%);
       display: block;
     }
     #info-panel #info-text {
