@@ -24,7 +24,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: black;  /* Dark background */
+      background: black;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -40,7 +40,7 @@
       width: 100%;
       height: 100%;
       background: black;
-      opacity: 0.6;  
+      opacity: 0.6;
       z-index: 1;
     }
     /* Loading image fills the screen */
@@ -53,17 +53,11 @@
       left: 0;
       z-index: 0;
     }
-    /* Logo and text appear above overlay */
-    .loading-logo {
-      width: 225px;
-      height: auto;
-      object-fit: cover;
-      margin-bottom: 20px;
-    }
+    /* Loading text */
     .loading-text {
       font-size: 18px;
       font-weight: bold;
-      color: #fff;  /* White for contrast */
+      color: #fff;
       position: relative;
       z-index: 2;
     }
@@ -100,7 +94,6 @@
       transform: scale(1.1);
       border-color: yellow;
     }
-    /* Make the label bold when hovering over the entire bubble */
     .nav-item:hover span {
       font-weight: bold;
     }
@@ -139,14 +132,6 @@
     }
     #info-panel .info-content {
       margin-top: 50px;
-      text-align: center;
-    }
-    .info-logo {
-      height: 100%;  
-      width: auto;   
-      object-fit: contain;
-      transform: translateY(15%);
-      display: block;
     }
     #info-panel #info-text {
       font-size: 14px;
@@ -160,13 +145,6 @@
   <div id="loading-screen">
     <div class="loading-overlay"></div>
     <img src="loading.jpg" alt="Loading" class="loading-image">
-    <!-- Logo using <picture> for multiple formats -->
-    <picture class="loading-logo">
-      <source srcset="logo.png" type="image/png">
-      <source srcset="logo.jpg" type="image/jpeg">
-      <source srcset="logo.jpeg" type="image/jpeg">
-      <img src="logo.jpg" alt="Logo">
-    </picture>
     <p class="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
   </div>
   
@@ -197,13 +175,6 @@
   <div id="info-panel">
     <div class="pullout-arrow">❯</div>
     <div class="info-content">
-      <!-- Info panel logo using <picture> for multiple formats -->
-      <picture class="info-logo">
-        <source srcset="logo.png" type="image/png">
-        <source srcset="logo.jpg" type="image/jpeg">
-        <source srcset="logo.jpeg" type="image/jpeg">
-        <img src="logo.jpg" alt="Logo">
-      </picture>
       <p id="info-text">
 Living Room: A spacious and elegantly designed living room with natural light and high-end finishes. The perfect space for relaxing or entertaining guests, featuring premium flooring, stylish furniture, and a seamless connection to other areas of the home.
 
