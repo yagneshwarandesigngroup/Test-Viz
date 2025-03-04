@@ -24,7 +24,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: black;  /* Updated to dark background */
+      background: black;  /* Dark background */
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -39,8 +39,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: black;  /* Dark overlay */
-      opacity: 0.6;       /* Slightly reduced opacity */
+      background: black;
+      opacity: 0.6;  
       z-index: 1;
     }
     /* Loading image fills the screen */
@@ -63,7 +63,7 @@
     .loading-text {
       font-size: 18px;
       font-weight: bold;
-      color: #fff;  /* Updated to white for contrast */
+      color: #fff;  /* White for contrast */
       position: relative;
       z-index: 2;
     }
@@ -139,8 +139,9 @@
     }
     #info-panel .info-content {
       margin-top: 50px;
+      text-align: center;
     }
-    #info-panel .info-logo {
+    .info-logo {
       width: 140px;  /* Original size */
       margin: 0 auto 20px;
       display: block;
@@ -157,7 +158,13 @@
   <div id="loading-screen">
     <div class="loading-overlay"></div>
     <img src="loading.jpg" alt="Loading" class="loading-image">
-    <img src="logo.jpg" alt="Logo" class="loading-logo">
+    <!-- Logo using <picture> for multiple formats -->
+    <picture class="loading-logo">
+      <source srcset="logo.png" type="image/png">
+      <source srcset="logo.jpg" type="image/jpeg">
+      <source srcset="logo.jpeg" type="image/jpeg">
+      <img src="logo.jpg" alt="Logo">
+    </picture>
     <p class="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
   </div>
   
@@ -188,7 +195,13 @@
   <div id="info-panel">
     <div class="pullout-arrow">❯</div>
     <div class="info-content">
-      <img src="logo.jpg" alt="Logo" class="info-logo">
+      <!-- Info panel logo using <picture> for multiple formats -->
+      <picture class="info-logo">
+        <source srcset="logo.png" type="image/png">
+        <source srcset="logo.jpg" type="image/jpeg">
+        <source srcset="logo.jpeg" type="image/jpeg">
+        <img src="logo.jpg" alt="Logo">
+      </picture>
       <p id="info-text">
 Living Room: A spacious and elegantly designed living room with natural light and high-end finishes. The perfect space for relaxing or entertaining guests, featuring premium flooring, stylish furniture, and a seamless connection to other areas of the home.
 
