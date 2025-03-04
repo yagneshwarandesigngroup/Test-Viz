@@ -55,7 +55,7 @@
     }
     /* Logo and text appear above overlay */
     .loading-logo {
-      width: 180px;
+      width: 540px; /* Increased by 300% from original 180px */
       margin-bottom: 15px;
       position: relative;
       z-index: 2;
@@ -104,6 +104,10 @@
       font-size: 14px;
       color: black;
       margin-top: 5px;
+      transition: font-weight 0.3s;
+    }
+    .nav-item span:hover {
+      font-weight: bold;
     }
     /* Info Panel (Sidebar) */
     #info-panel {
@@ -135,9 +139,10 @@
     }
     #info-panel .info-content {
       margin-top: 50px;
+      text-align: center;
     }
-    #info-panel .info-logo {
-      width: 140px;
+    .info-logo {
+      width: 280px; /* Increased by 200% from original 140px */
       margin: 0 auto 20px;
       display: block;
     }
@@ -153,7 +158,13 @@
   <div id="loading-screen">
     <div class="loading-overlay"></div>
     <img src="loading.jpg" alt="Loading" class="loading-image">
-    <img src="logo.png" alt="Logo" class="loading-logo">
+    <!-- Logo using <picture> to support multiple formats -->
+    <picture class="loading-logo">
+      <source srcset="logo.png" type="image/png">
+      <source srcset="logo.jpg" type="image/jpeg">
+      <source srcset="logo.jpeg" type="image/jpeg">
+      <img src="logo.jpg" alt="Logo">
+    </picture>
     <p class="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
   </div>
   
@@ -184,7 +195,12 @@
   <div id="info-panel">
     <div class="pullout-arrow">❯</div>
     <div class="info-content">
-      <img src="logo.png" alt="Logo" class="info-logo">
+      <picture class="info-logo">
+        <source srcset="logo.png" type="image/png">
+        <source srcset="logo.jpg" type="image/jpeg">
+        <source srcset="logo.jpeg" type="image/jpeg">
+        <img src="logo.jpg" alt="Logo">
+      </picture>
       <p id="info-text">
 Living Room: A spacious and elegantly designed living room with natural light and high-end finishes. The perfect space for relaxing or entertaining guests, featuring premium flooring, stylish furniture, and a seamless connection to other areas of the home.
 
@@ -198,7 +214,7 @@ Balcony: A private balcony with a stunning view, offering a peaceful escape from
   </div>
   
   <script>
-    // Initialize Pannellum 360 Viewer with defined scenes
+    // Initialize Pannellum 360 Viewer with updated zoom settings
     var viewer = pannellum.viewer('viewer', {
       "default": {
         "firstScene": "hall",
@@ -207,9 +223,9 @@ Balcony: A private balcony with a stunning view, offering a peaceful escape from
         "autoRotate": -1,
         "minPitch": -120,
         "maxPitch": 120,
-        "hfov": 90,
+        "hfov": 108,       // Default zoom-out increased by 20% from 90
         "minHfov": 30,
-        "maxHfov": 80
+        "maxHfov": 96      // Increased by 20% from 80
       },
       "scenes": {
         "hall": {
