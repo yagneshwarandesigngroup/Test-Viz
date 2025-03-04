@@ -24,22 +24,23 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: black;  /* Dark background */
+      background: white;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       z-index: 10;
     }
-    /* Dark fade overlay for loading image */
+    /* White fade overlay for loading image */
     .loading-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: black;
-      opacity: 0.6;  
+      background: white;
+      opacity: 0.8;
       z-index: 1;
     }
     /* Loading image fills the screen */
@@ -52,27 +53,19 @@
       left: 0;
       z-index: 0;
     }
-    /* Flex container for logo and text */
-    .loading-content {
+    /* Logo and text appear above overlay */
+    .loading-logo {
+      width: 216px; /* Increased by 20% from 180px */
+      margin-bottom: 15px;
       position: relative;
       z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
-    /* Logo styling using <picture> for multiple formats */
-    .loading-logo {
-      width: 180px;  /* Original size */
-    }
-    .loading-logo img {
-      width: 100%;
-      display: block;
     }
     .loading-text {
       font-size: 18px;
       font-weight: bold;
-      color: #fff;  /* White for contrast */
+      color: #333;
+      position: relative;
+      z-index: 2;
     }
     /* 360 Viewer */
     #viewer {
@@ -107,14 +100,14 @@
       transform: scale(1.1);
       border-color: yellow;
     }
-    /* Make the label bold when hovering over the entire bubble */
-    .nav-item:hover span {
-      font-weight: bold;
-    }
     .nav-item span {
       font-size: 14px;
       color: black;
       margin-top: 5px;
+      transition: font-weight 0.3s;
+    }
+    .nav-item:hover span {
+      font-weight: bold;
     }
     /* Info Panel (Sidebar) */
     #info-panel {
@@ -146,12 +139,10 @@
     }
     #info-panel .info-content {
       margin-top: 50px;
-      text-align: center;
     }
-    /* Sidebar logo is reduced in size to fit inside the sidebar */
-    .info-logo {
-      width: 100px;  /* Reduced size */
-      margin: 0 auto 20px;
+    #info-panel .info-logo {
+      width: 147px; /* Increased by 5% from 140px */
+      margin: 20px auto 20px; /* Centered with a top margin */
       display: block;
     }
     #info-panel #info-text {
@@ -166,15 +157,8 @@
   <div id="loading-screen">
     <div class="loading-overlay"></div>
     <img src="loading.jpg" alt="Loading" class="loading-image">
-    <div class="loading-content">
-      <picture class="loading-logo">
-        <source srcset="logo.png" type="image/png">
-        <source srcset="logo.jpg" type="image/jpeg">
-        <source srcset="logo.jpeg" type="image/jpeg">
-        <img src="logo.jpg" alt="Logo">
-      </picture>
-      <p class="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
-    </div>
+    <img src="logo.jpg" alt="Logo" class="loading-logo">
+    <p class="loading-text">Your 360° Virtual Walkthrough is setting up...</p>
   </div>
   
   <!-- 360 Viewer -->
@@ -204,12 +188,7 @@
   <div id="info-panel">
     <div class="pullout-arrow">❯</div>
     <div class="info-content">
-      <picture class="info-logo">
-        <source srcset="logo.png" type="image/png">
-        <source srcset="logo.jpg" type="image/jpeg">
-        <source srcset="logo.jpeg" type="image/jpeg">
-        <img src="logo.jpg" alt="Logo">
-      </picture>
+      <img src="logo.jpg" alt="Logo" class="info-logo">
       <p id="info-text">
 Living Room: A spacious and elegantly designed living room with natural light and high-end finishes. The perfect space for relaxing or entertaining guests, featuring premium flooring, stylish furniture, and a seamless connection to other areas of the home.
 
@@ -234,7 +213,7 @@ Balcony: A private balcony with a stunning view, offering a peaceful escape from
         "maxPitch": 120,
         "hfov": 90,
         "minHfov": 30,
-        "maxHfov": 80
+        "maxHfov": 96   // Increased by 20% from 80
       },
       "scenes": {
         "hall": {
