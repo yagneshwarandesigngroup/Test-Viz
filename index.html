@@ -49,12 +49,13 @@
         }
 
         #loading-content img {
-            width: 150px;
-            margin-bottom: 10px;
+            width: 180px; /* Increased size */
+            margin-bottom: 15px;
         }
 
         #loading-text {
-            font-size: 16px;
+            font-size: 18px;
+            font-weight: bold;
             color: #333;
         }
 
@@ -83,7 +84,7 @@
             margin: 0 auto 20px;
         }
 
-        #sidebar p {
+        #image-info {
             font-size: 14px;
             line-height: 1.5;
         }
@@ -114,11 +115,18 @@
             bottom: 20px;
             width: 100%;
             display: flex;
-            justify-content: center;
-            gap: 15px;
+            justify-content: space-evenly;
+            align-items: center;
         }
 
         /* Thumbnail Navigation Buttons */
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
         .nav-button {
             width: 70px;
             height: 70px;
@@ -133,6 +141,11 @@
         .nav-button:hover {
             transform: scale(1.1);
             border-color: yellow;
+        }
+
+        .nav-label {
+            font-size: 14px;
+            color: white;
         }
     </style>
 </head>
@@ -161,10 +174,22 @@
 
     <!-- Navigation Buttons (Using 360° Images Directly) -->
     <div id="nav-bar">
-        <button class="nav-button" onclick="changeView('hall.png', 'Living Room')" style="background-image: url('hall.png');"></button>
-        <button class="nav-button" onclick="changeView('kitchen.png', 'Kitchen')" style="background-image: url('kitchen.png');"></button>
-        <button class="nav-button" onclick="changeView('mbed.png', 'Master Bedroom')" style="background-image: url('mbed.png');"></button>
-        <button class="nav-button" onclick="changeView('balcony.png', 'Balcony')" style="background-image: url('balcony.png');"></button>
+        <div class="nav-item">
+            <button class="nav-button" onclick="changeView('hall.png', 'Living Room')" style="background-image: url('hall.png');"></button>
+            <span class="nav-label">Living Room</span>
+        </div>
+        <div class="nav-item">
+            <button class="nav-button" onclick="changeView('kitchen.png', 'Kitchen')" style="background-image: url('kitchen.png');"></button>
+            <span class="nav-label">Kitchen</span>
+        </div>
+        <div class="nav-item">
+            <button class="nav-button" onclick="changeView('mbed.png', 'Master Bedroom')" style="background-image: url('mbed.png');"></button>
+            <span class="nav-label">Master Bedroom</span>
+        </div>
+        <div class="nav-item">
+            <button class="nav-button" onclick="changeView('balcony.png', 'Balcony')" style="background-image: url('balcony.png');"></button>
+            <span class="nav-label">Balcony</span>
+        </div>
     </div>
 
     <script>
@@ -174,13 +199,13 @@
             panorama: 'hall.png',  // Default image
             autoLoad: true,
             autoRotate: -1,  // Slow auto-rotation
-            minPitch: -30,  // Prevent too much tilt
-            maxPitch: 30,
+            minPitch: -120,  // Prevent too much tilt
+            maxPitch: 120,
             minYaw: -180,
             maxYaw: 180,
             hfov: 90,  // Reduce zoom-out by 25%
-            maxHfov: 110,
-            minHfov: 70
+            maxHfov: 80,
+            minHfov: 30
         });
 
         // Hide Loading Screen After Load
