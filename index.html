@@ -63,7 +63,7 @@
     }
     /* Logo styling using <picture> for multiple formats */
     .loading-logo {
-      width: 216px;  /* Increased by 20% from 180px */
+      width: 216px;  /* 20% increase from original 180px */
     }
     .loading-logo img {
       width: 100%;
@@ -148,6 +148,7 @@
       margin-top: 50px;
       text-align: center;
     }
+    /* Updated sidebar logo as multi-format picture */
     .info-logo {
       width: 140px;  /* Original size */
       margin: 0 auto 20px;
@@ -203,7 +204,12 @@
   <div id="info-panel">
     <div class="pullout-arrow">❯</div>
     <div class="info-content">
-      <img src="logo.jpg" alt="Logo" class="info-logo">
+      <picture class="info-logo">
+        <source srcset="logo.png" type="image/png">
+        <source srcset="logo.jpg" type="image/jpeg">
+        <source srcset="logo.jpeg" type="image/jpeg">
+        <img src="logo.jpg" alt="Logo">
+      </picture>
       <p id="info-text">
 Living Room: A spacious and elegantly designed living room with natural light and high-end finishes. The perfect space for relaxing or entertaining guests, featuring premium flooring, stylish furniture, and a seamless connection to other areas of the home.
 
