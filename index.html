@@ -86,7 +86,7 @@
       cursor: pointer;
     }
     .nav-item img {
-      width: 63px;  /* Decreased by 10% from 70px */
+      width: 63px;   /* Decreased by 10% from 70px */
       height: 63px;
       border-radius: 50%;
       border: 2px solid white;
@@ -113,7 +113,7 @@
       top: 0;
       width: 350px;
       height: 100%;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0,0,0,0.9);
       color: white;
       padding: 20px;
       transition: left 0.4s ease-in-out;
@@ -152,7 +152,7 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 20mm;  /* Positioned 1mm below the Info panel */
+      top: 20mm; /* Changed gap to 20mm */
       width: 350px;
       height: 100%;
       background: rgba(200, 0, 0, 0.8); /* Semi-transparent red */
@@ -283,7 +283,7 @@
       "mbed": "Master Bedroom Materials:\n- Polished hardwood floors\n- Upholstered bed with premium linen\n- Brushed metal lamps\n- Soft cotton curtains",
       "balcony": "Balcony Materials:\n- Composite decking\n- Glass railings\n- Weather-resistant metal accents\n- Stone veneer"
     };
-    // Default material text is for the hall.
+    // Set default Material Panel content.
     document.getElementById('material-text').innerText = materialDetails["hall"];
     
     // Use media query to set different zoom settings for PC and mobile.
@@ -327,7 +327,7 @@
         var sceneId = this.dataset.scene;
         viewer.loadScene(sceneId);
         
-        // Update Info Panel with room-specific details.
+        // Update Info Panel with room details.
         let infoText = '';
         switch (sceneId) {
           case 'hall':
@@ -357,10 +357,16 @@
       document.getElementById('info-text').innerHTML = companyDetails;
     });
     
-    // Toggle the Info Panel
+    // Toggle the Info Panel (Sidebar)
     const pulloutArrow = document.querySelector('#info-panel .pullout-arrow');
     pulloutArrow.addEventListener('click', function() {
       const infoPanel = document.getElementById('info-panel');
+      const materialPanel = document.getElementById('material-panel');
+      // Close material panel if open.
+      if (materialPanel.style.left === '0px') {
+        materialPanel.style.left = '-350px';
+        document.querySelector('#material-panel .pullout-arrow').innerHTML = '❯';
+      }
       if (infoPanel.style.left === '0px') {
         infoPanel.style.left = '-350px';
         this.innerHTML = '❯';
@@ -370,10 +376,16 @@
       }
     });
     
-    // Toggle the Material Panel
+    // Toggle the Material Panel (Sidebar)
     const materialPulloutArrow = document.querySelector('#material-panel .pullout-arrow');
     materialPulloutArrow.addEventListener('click', function() {
       const materialPanel = document.getElementById('material-panel');
+      const infoPanel = document.getElementById('info-panel');
+      // Close info panel if open.
+      if (infoPanel.style.left === '0px') {
+        infoPanel.style.left = '-350px';
+        document.querySelector('#info-panel .pullout-arrow').innerHTML = '❯';
+      }
       if (materialPanel.style.left === '0px') {
         materialPanel.style.left = '-350px';
         this.innerHTML = '❯';
