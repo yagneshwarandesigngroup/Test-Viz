@@ -123,7 +123,7 @@
       position: absolute;
       top: 50%;
       right: -30px;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0,0,0,0.9);
       color: white;
       padding: 10px;
       border-radius: 0 5px 5px 0;
@@ -134,7 +134,7 @@
       pointer-events: auto;
     }
     #info-panel .pullout-arrow:hover {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0,0,0,0.4);
     }
     #info-panel .info-content {
       margin-top: 50px;
@@ -154,10 +154,10 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 0; /* Same top as info panel */
+      top: 0; /* Material panel occupies same space as info panel */
       width: 350px;
       height: 100%;
-      background: rgba(200, 0, 0, 0.8); /* Semi-transparent red */
+      background: rgba(200,0,0,0.8); /* Semi-transparent red */
       color: white;
       padding: 20px;
       transition: left 0.4s ease-in-out;
@@ -165,9 +165,9 @@
     }
     #material-panel .pullout-arrow {
       position: absolute;
-      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
+      top: calc(50% + 20mm); /* Pullout arrow moved down by 20mm relative to center */
       right: -30px;
-      background: rgba(200, 0, 0, 0.9);
+      background: rgba(200,0,0,0.9);
       color: white;
       padding: 10px;
       border-radius: 0 5px 5px 0;
@@ -178,7 +178,7 @@
       pointer-events: auto;
     }
     #material-panel .pullout-arrow:hover {
-      background: rgba(200, 0, 0, 0.4);
+      background: rgba(200,0,0,0.4);
     }
     #material-panel .info-content {
       margin-top: 50px;
@@ -194,11 +194,10 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Sidebar Labels - repositioned to be to the right of the pullout arrow */
-    #info-panel .sidebar-label,
-    #material-panel .sidebar-label {
+    /* Sidebar Labels (for initial display) */
+    .sidebar-label {
       position: absolute;
-      right: -50px;
+      right: -50px; /* Moved 15mm (approx. 15mm ~ 50px, adjust as needed) to the right */
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
@@ -324,7 +323,25 @@
     };
     var viewer = pannellum.viewer('viewer', viewerConfig);
     
-    // When a navigation item is clicked, update both Info and Material panels.
+    // Function to show sidebar labels for a given duration.
+    function showLabel(sidebarId, duration) {
+      var label = document.querySelector(sidebarId + " .sidebar-label");
+      label.style.opacity = 1;
+      setTimeout(() => {
+        label.style.opacity = 0;
+      }, duration);
+    }
+    
+    // On initial load, show labels for 4 seconds.
+    window.addEventListener('load', function() {
+      showLabel("#info-panel", 4000);
+      showLabel("#material-panel", 4000);
+      setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+      }, 2000);
+    });
+    
+    // When a navigation item is clicked, update both Info and Material panels and show labels for 2 seconds.
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', function() {
         var sceneId = this.dataset.scene;
@@ -350,6 +367,9 @@
         document.getElementById('info-text').innerText = infoText;
         // Update Material Panel.
         document.getElementById('material-text').innerText = materialDetails[sceneId] || '';
+        // Show sidebar labels for 2 seconds.
+        showLabel("#info-panel", 2000);
+        showLabel("#material-panel", 2000);
       });
     });
     
@@ -412,17 +432,6 @@
         infoArrow.style.opacity = '0';
         infoArrow.style.pointerEvents = 'none';
       }
-    });
-    
-    // Fade out sidebar labels after 2 seconds.
-    window.addEventListener('load', function() {
-      setTimeout(() => {
-        document.getElementById('info-label').style.opacity = 0;
-        document.getElementById('material-label').style.opacity = 0;
-      }, 2000);
-      setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-      }, 2000);
     });
   </script>
 </body>
