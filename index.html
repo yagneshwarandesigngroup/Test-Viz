@@ -154,7 +154,7 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 0; /* Material panel occupies same space as info panel */
+      top: 0; /* Same top as Info Panel */
       width: 350px;
       height: 100%;
       background: rgba(200,0,0,0.8); /* Semi-transparent red */
@@ -165,7 +165,7 @@
     }
     #material-panel .pullout-arrow {
       position: absolute;
-      top: calc(50% + 20mm); /* Pullout arrow moved down by 20mm relative to center */
+      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
       right: -30px;
       background: rgba(200,0,0,0.9);
       color: white;
@@ -197,7 +197,7 @@
     /* Sidebar Labels (for initial display) */
     .sidebar-label {
       position: absolute;
-      right: -50px; /* Moved 15mm (approx. 15mm ~ 50px, adjust as needed) to the right */
+      right: calc(-30px - 20mm); /* 20mm gap from the pullout arrow */
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
