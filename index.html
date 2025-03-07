@@ -138,7 +138,6 @@
     }
     #info-panel .info-content {
       margin-top: 50px;
-      text-align: left; /* Align content to left */
     }
     #info-panel .info-logo {
       width: 190px; /* Increased by 5% from 140px */
@@ -150,7 +149,6 @@
       font-size: 14px;
       line-height: 1.5;
       white-space: pre-line;
-      text-align: left;
     }
     /* Material Panel (Sidebar for Material Details) */
     #material-panel {
@@ -167,7 +165,7 @@
     }
     #material-panel .pullout-arrow {
       position: absolute;
-      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
+      top: calc(50% + 20mm); /* Pullout arrow moved down by 20mm relative to center */
       right: -30px;
       background: rgba(200,0,0,0.9);
       color: white;
@@ -184,7 +182,6 @@
     }
     #material-panel .info-content {
       margin-top: 50px;
-      text-align: left; /* Align content to left */
     }
     #material-panel .info-logo {
       width: 190px;
@@ -196,24 +193,24 @@
       font-size: 14px;
       line-height: 1.5;
       white-space: pre-line;
-      text-align: left;
     }
-    /* Sidebar Labels (for initial display) */
+    /* Sidebar Labels - now aligned to the left of their respective pullout arrows with a 20mm gap */
     .sidebar-label {
       position: absolute;
-      right: calc(-30px - 20mm); /* 20mm gap from the pullout arrow */
+      left: calc(100% + 20mm); /* 20mm gap to the right edge of the panel */
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
       font-weight: bold;
-      color: white;
+      color: black; /* Black text */
+      text-align: left;
       opacity: 1;
       transition: opacity 1s ease-out;
       z-index: 10;
     }
-    /* Specific override for material panel label */
+    /* Override for material panel label to align with its pullout arrow */
     #material-panel .sidebar-label {
-      top: calc(50% + 20mm); /* Align with material pullout arrow */
+      top: calc(50% + 20mm);
       transform: translateY(-50%);
     }
   </style>
