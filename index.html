@@ -138,6 +138,7 @@
     }
     #info-panel .info-content {
       margin-top: 50px;
+      text-align: left; /* Align content to left */
     }
     #info-panel .info-logo {
       width: 190px; /* Increased by 5% from 140px */
@@ -149,12 +150,13 @@
       font-size: 14px;
       line-height: 1.5;
       white-space: pre-line;
+      text-align: left;
     }
     /* Material Panel (Sidebar for Material Details) */
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 0; /* Same top as Info Panel */
+      top: 0; /* Same top as info panel */
       width: 350px;
       height: 100%;
       background: rgba(200,0,0,0.8); /* Semi-transparent red */
@@ -182,6 +184,7 @@
     }
     #material-panel .info-content {
       margin-top: 50px;
+      text-align: left; /* Align content to left */
     }
     #material-panel .info-logo {
       width: 190px;
@@ -193,19 +196,25 @@
       font-size: 14px;
       line-height: 1.5;
       white-space: pre-line;
+      text-align: left;
     }
     /* Sidebar Labels (for initial display) */
     .sidebar-label {
       position: absolute;
       right: calc(-30px - 20mm); /* 20mm gap from the pullout arrow */
-      top: calc(50% + 20mm); /* Align with the material pullout arrow */
+      top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
       font-weight: bold;
-      color: black; /* Made black */
+      color: white;
       opacity: 1;
       transition: opacity 1s ease-out;
       z-index: 10;
+    }
+    /* Specific override for material panel label */
+    #material-panel .sidebar-label {
+      top: calc(50% + 20mm); /* Align with material pullout arrow */
+      transform: translateY(-50%);
     }
   </style>
 </head>
