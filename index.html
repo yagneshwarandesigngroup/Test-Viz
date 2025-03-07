@@ -24,7 +24,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #000; /* Pure black background */
+      background: #000;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -113,20 +113,11 @@
       top: 0;
       width: 350px;
       height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0, 0, 0, 0.9);
       color: white;
       padding: 20px;
       transition: left 0.4s ease-in-out;
       z-index: 6;
-    }
-    /* Transient header for Info panel */
-    #info-title {
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 10px;
-      opacity: 1;
-      transition: opacity 1s ease-out;
     }
     #info-panel .pullout-arrow {
       position: absolute;
@@ -157,35 +148,24 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Material Panel (New Sidebar) */
+    /* Material Panel (Sidebar for Material Details) */
     #material-panel {
       position: fixed;
       left: -350px;
-      /* Positioned 5mm (~19px) below the bottom of the viewport */
-      top: calc(100% - 200px - 19px);
+      top: 1mm;  /* Positioned 1mm below the Info panel */
       width: 350px;
-      height: 200px;
-      background: rgba(255, 0, 0, 0.7); /* Semi-transparent red */
+      height: 100%;
+      background: rgba(200, 0, 0, 0.8); /* Semi-transparent red */
       color: white;
-      padding: 10px;
+      padding: 20px;
       transition: left 0.4s ease-in-out;
       z-index: 7;
     }
-    /* Transient header for Material panel */
-    #material-title {
-      font-size: 16px;
-      font-weight: bold;
-      text-align: center;
-      margin-bottom: 5px;
-      opacity: 1;
-      transition: opacity 1s ease-out;
-    }
-    /* Material panel pullout arrow */
-    #material-panel .material-pullout-arrow {
+    #material-panel .pullout-arrow {
       position: absolute;
       top: 50%;
       right: -30px;
-      background: rgba(255, 0, 0, 0.7);
+      background: rgba(200, 0, 0, 0.9);
       color: white;
       padding: 10px;
       border-radius: 0 5px 5px 0;
@@ -193,16 +173,35 @@
       transform: translateY(-50%);
       transition: background 0.3s;
     }
-    #material-panel .material-pullout-arrow:hover {
-      background: rgba(255, 0, 0, 0.4);
+    #material-panel .pullout-arrow:hover {
+      background: rgba(200, 0, 0, 0.4);
     }
-    #material-panel .material-content {
-      margin-top: 30px;
+    #material-panel .info-content {
+      margin-top: 50px;
+    }
+    #material-panel .info-logo {
+      width: 190px;
+      margin: 20px auto 20px;
+      display: block;
+      cursor: pointer;
     }
     #material-panel #material-text {
       font-size: 14px;
       line-height: 1.5;
       white-space: pre-line;
+    }
+    /* Sidebar Labels (for initial display) */
+    .sidebar-label {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+      z-index: 10;
     }
   </style>
 </head>
@@ -240,25 +239,26 @@
   
   <!-- Info Panel (Sidebar) -->
   <div id="info-panel">
+    <div class="sidebar-label" id="info-label">Info</div>
     <div class="pullout-arrow">❯</div>
     <div class="info-content">
-      <div id="info-title">Info</div>
       <img src="logo.png" alt="Logo" class="info-logo">
       <p id="info-text"></p>
     </div>
   </div>
   
-  <!-- Material Panel (New Sidebar) -->
+  <!-- Material Panel (Sidebar for Material Details) -->
   <div id="material-panel">
-    <div class="material-pullout-arrow">❯</div>
-    <div class="material-content">
-      <div id="material-title">Materials</div>
+    <div class="sidebar-label" id="material-label">Materials</div>
+    <div class="pullout-arrow">❯</div>
+    <div class="info-content">
+      <img src="logo.png" alt="Logo" class="info-logo">
       <p id="material-text"></p>
     </div>
   </div>
   
   <script>
-    // Company details (for the Info panel, shown on the first page or when logo is clicked)
+    // Company details for Info Panel.
     var companyDetails = "<div style='font-family: Arial, sans-serif; font-size: 12px; line-height: 1.6;'>" +
       "<h2 style='font-size: 14px; margin-bottom: 12px;'><strong>Yagneshwaran Design Group – IT Solutions for Architecture & Construction</strong></h2>" +
       "<p>We provide cutting-edge <strong>IT services</strong> for architects, builders, and real estate firms, including:</p>" +
@@ -273,17 +273,18 @@
       "<p style='margin-top: 8px;'><strong>Innovate. Optimize. Build Smarter.</strong></p>" +
       "<p>📍 Salem & Bangalore | 🌐 Serving Local & International Clients</p>" +
       "</div>";
-    
-    // Default info text (company details)
+    // Set default Info Panel content.
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Material details for each room
+    // Material details for each room.
     var materialDetails = {
-      "hall": "Materials for Living Room:\n- Marble flooring\n- Velvet sofa fabric\n- Brushed metal accents\n- Bisoke furniture with refined finishes\n- Glass coffee table with tempered edges",
-      "kitchen": "Materials for Kitchen:\n- Granite countertops\n- Stainless steel appliances\n- Ceramic tiles\n- Modern cabinetry with glass inserts\n- Backsplash in mosaic design",
-      "mbed": "Materials for Master Bedroom:\n- Premium carpeting\n- Upholstered headboard\n- Natural wood finishes\n- Ambient LED lighting\n- Textured wall panels",
-      "balcony": "Materials for Balcony:\n- Composite decking\n- Tempered glass railings\n- Wrought iron accents\n- Outdoor ceramic tiles\n- Weather-resistant fabrics for cushions"
+      "hall": "Living Room Materials:\n- Marble flooring\n- Fabric sofa\n- Metal fixtures\n- Bisoke wood accents\n- High-gloss finish\n- Textured drapes",
+      "kitchen": "Kitchen Materials:\n- Granite countertops\n- Stainless steel appliances\n- Ceramic tiles\n- Quartz backsplash\n- Wood cabinetry",
+      "mbed": "Master Bedroom Materials:\n- Polished hardwood floors\n- Upholstered bed with premium linen\n- Brushed metal lamps\n- Soft cotton curtains",
+      "balcony": "Balcony Materials:\n- Composite decking\n- Glass railings\n- Weather-resistant metal accents\n- Stone veneer"
     };
+    // Default material text is for the hall.
+    document.getElementById('material-text').innerText = materialDetails["hall"];
     
     // Use media query to set different zoom settings for PC and mobile.
     var isMobile = window.matchMedia("only screen and (max-width: 767px)").matches;
@@ -295,9 +296,9 @@
         "autoRotate": -2,
         "minPitch": -120,
         "maxPitch": 120,
-        "hfov": isMobile ? 80 : 90,         // Mobile gets a lower hfov (more zoomed in)
+        "hfov": isMobile ? 80 : 90,         // Mobile: lower hfov (more zoomed in)
         "minHfov": 45,
-        "maxHfov": isMobile ? 60 : 100         // Mobile: lower max hfov for tighter zoom
+        "maxHfov": isMobile ? 60 : 100        // Mobile: lower max hfov
       },
       "scenes": {
         "hall": {
@@ -320,12 +321,13 @@
     };
     var viewer = pannellum.viewer('viewer', viewerConfig);
     
-    // When a navigation item is clicked, update scene and both sidebars with respective details.
+    // When a navigation item is clicked, update both Info and Material panels.
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', function() {
         var sceneId = this.dataset.scene;
         viewer.loadScene(sceneId);
-        // Update Info panel with room description
+        
+        // Update Info Panel with room-specific details.
         let infoText = '';
         switch (sceneId) {
           case 'hall':
@@ -344,17 +346,18 @@
             infoText = 'Click a room to explore.';
         }
         document.getElementById('info-text').innerText = infoText;
-        // Update Material panel with material details
-        document.getElementById('material-text').innerText = materialDetails[sceneId] || "";
+        
+        // Update Material Panel with corresponding material details.
+        document.getElementById('material-text').innerText = materialDetails[sceneId] || '';
       });
     });
     
-    // When the sidebar logo (Info panel) is clicked, reset info to company details.
+    // When the Info Panel logo is clicked, reset info to company details.
     document.querySelector('#info-panel .info-logo').addEventListener('click', function() {
       document.getElementById('info-text').innerHTML = companyDetails;
     });
     
-    // Toggle the Info Panel (Sidebar)
+    // Toggle the Info Panel
     const pulloutArrow = document.querySelector('#info-panel .pullout-arrow');
     pulloutArrow.addEventListener('click', function() {
       const infoPanel = document.getElementById('info-panel');
@@ -367,8 +370,8 @@
       }
     });
     
-    // Toggle the Material Panel (Sidebar)
-    const materialPulloutArrow = document.querySelector('#material-panel .material-pullout-arrow');
+    // Toggle the Material Panel
+    const materialPulloutArrow = document.querySelector('#material-panel .pullout-arrow');
     materialPulloutArrow.addEventListener('click', function() {
       const materialPanel = document.getElementById('material-panel');
       if (materialPanel.style.left === '0px') {
@@ -380,14 +383,12 @@
       }
     });
     
-    // On page load, show transient headers "Info" and "Materials" for 2 seconds then fade them out.
+    // Fade out sidebar labels after 2 seconds.
     window.addEventListener('load', function() {
-      // Show headers (they are already visible by default)
       setTimeout(() => {
-        document.getElementById('info-title').style.opacity = '0';
-        document.getElementById('material-title').style.opacity = '0';
+        document.getElementById('info-label').style.opacity = 0;
+        document.getElementById('material-label').style.opacity = 0;
       }, 2000);
-      // Hide the loading screen after 2 seconds.
       setTimeout(() => {
         document.getElementById('loading-screen').style.display = 'none';
       }, 2000);
