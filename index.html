@@ -129,7 +129,9 @@
       border-radius: 0 5px 5px 0;
       cursor: pointer;
       transform: translateY(-50%);
-      transition: background 0.3s;
+      transition: opacity 0.5s ease, background 0.3s;
+      opacity: 1;
+      pointer-events: auto;
     }
     #info-panel .pullout-arrow:hover {
       background: rgba(0, 0, 0, 0.4);
@@ -171,7 +173,9 @@
       border-radius: 0 5px 5px 0;
       cursor: pointer;
       transform: translateY(-50%);
-      transition: background 0.3s;
+      transition: opacity 0.5s ease, background 0.3s;
+      opacity: 1;
+      pointer-events: auto;
     }
     #material-panel .pullout-arrow:hover {
       background: rgba(200, 0, 0, 0.4);
@@ -324,7 +328,6 @@
       item.addEventListener('click', function() {
         var sceneId = this.dataset.scene;
         viewer.loadScene(sceneId);
-        
         // Update Info Panel.
         let infoText = '';
         switch (sceneId) {
@@ -344,7 +347,6 @@
             infoText = 'Click a room to explore.';
         }
         document.getElementById('info-text').innerText = infoText;
-        
         // Update Material Panel.
         document.getElementById('material-text').innerText = materialDetails[sceneId] || '';
       });
@@ -361,18 +363,26 @@
     infoArrow.addEventListener('click', function() {
       const infoPanel = document.getElementById('info-panel');
       const materialPanel = document.getElementById('material-panel');
-      // Close Material Panel and hide its arrow.
+      // Close Material Panel and fade out its arrow.
       materialPanel.style.left = '-350px';
-      materialArrow.style.display = 'none';
+      materialArrow.style.opacity = '0';
+      materialArrow.style.pointerEvents = 'none';
+      
       // Toggle Info Panel.
       if (infoPanel.style.left === '0px') {
         infoPanel.style.left = '-350px';
         this.innerHTML = '❯';
-        materialArrow.style.display = 'block';
+        // Fade in material arrow after closing.
+        setTimeout(() => {
+          materialArrow.style.opacity = '1';
+          materialArrow.style.pointerEvents = 'auto';
+        }, 500);
       } else {
         infoPanel.style.left = '0px';
         this.innerHTML = '❮';
-        materialArrow.style.display = 'none';
+        // Fade out material arrow.
+        materialArrow.style.opacity = '0';
+        materialArrow.style.pointerEvents = 'none';
       }
     });
     
@@ -380,18 +390,26 @@
     materialArrow.addEventListener('click', function() {
       const materialPanel = document.getElementById('material-panel');
       const infoPanel = document.getElementById('info-panel');
-      // Close Info Panel and hide its arrow.
+      // Close Info Panel and fade out its arrow.
       infoPanel.style.left = '-350px';
-      infoArrow.style.display = 'none';
+      infoArrow.style.opacity = '0';
+      infoArrow.style.pointerEvents = 'none';
+      
       // Toggle Material Panel.
       if (materialPanel.style.left === '0px') {
         materialPanel.style.left = '-350px';
         this.innerHTML = '❯';
-        infoArrow.style.display = 'block';
+        // Fade in info arrow after closing.
+        setTimeout(() => {
+          infoArrow.style.opacity = '1';
+          infoArrow.style.pointerEvents = 'auto';
+        }, 500);
       } else {
         materialPanel.style.left = '0px';
         this.innerHTML = '❮';
-        infoArrow.style.display = 'none';
+        // Fade out info arrow.
+        infoArrow.style.opacity = '0';
+        infoArrow.style.pointerEvents = 'none';
       }
     });
     
