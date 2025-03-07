@@ -413,15 +413,15 @@
       }
     });
     
-    // Fade out sidebar labels after 2 seconds.
+    // Fade out sidebar labels after 2 seconds from when the loading screen is hidden.
     window.addEventListener('load', function() {
-      setTimeout(() => {
-        document.getElementById('info-label').style.opacity = 0;
-        document.getElementById('material-label').style.opacity = 0;
-      }, 2000);
       setTimeout(() => {
         document.getElementById('loading-screen').style.display = 'none';
       }, 2000);
+      setTimeout(() => {
+        document.getElementById('info-label').style.opacity = 0;
+        document.getElementById('material-label').style.opacity = 0;
+      }, 3000); // Labels fade out 1 sec after loading screen is hidden.
     });
   </script>
 </body>
