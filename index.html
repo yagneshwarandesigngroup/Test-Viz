@@ -165,7 +165,7 @@
     }
     #material-panel .pullout-arrow {
       position: absolute;
-      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
+      top: calc(50% + 20mm); /* Pullout arrow moved down by 20mm relative to center */
       right: -30px;
       background: rgba(200,0,0,0.9);
       color: white;
@@ -194,15 +194,15 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Sidebar Labels - now aligned 20mm to the right of their respective pullout arrows */
+    /* Sidebar Labels - now aligned to the left of their respective pullout arrows with a 20mm gap */
     .sidebar-label {
       position: absolute;
-      left: calc(-30px + 15mm); /* Originally 20mm gap from arrow; now reduced by half to 10mm gap */
+      left: calc(100% + 20mm); /* 20mm gap to the right edge of the panel */
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
       font-weight: bold;
-      color: black;
+      color: black; /* Black text */
       text-align: left;
       opacity: 1;
       transition: opacity 1s ease-out;
