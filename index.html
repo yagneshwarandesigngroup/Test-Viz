@@ -198,22 +198,14 @@
     .sidebar-label {
       position: absolute;
       right: calc(-30px - 20mm); /* 20mm gap from the pullout arrow */
+      top: calc(50% + 20mm); /* Align with the material pullout arrow */
+      transform: translateY(-50%);
       font-size: 16px;
       font-weight: bold;
-      color: white;
+      color: black; /* Made black */
       opacity: 1;
       transition: opacity 1s ease-out;
       z-index: 10;
-    }
-    /* Info Panel label: align vertically centered with its arrow */
-    #info-panel .sidebar-label {
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    /* Material Panel label: align with the material arrow */
-    #material-panel .sidebar-label {
-      top: calc(50% + 20mm);
-      transform: translateY(-50%);
     }
   </style>
 </head>
