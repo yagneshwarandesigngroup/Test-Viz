@@ -154,7 +154,7 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 0; /* Same top as info panel */
+      top: 0; /* Occupies same vertical space as Info Panel */
       width: 350px;
       height: 100%;
       background: rgba(200,0,0,0.8); /* Semi-transparent red */
@@ -194,24 +194,33 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Sidebar Labels - now aligned to the left of their respective pullout arrows with a 20mm gap */
-    .sidebar-label {
+    /* Sidebar Labels for Info Panel */
+    #info-panel .sidebar-label {
       position: absolute;
-      left: calc(100% + 20mm); /* 20mm gap to the right edge of the panel */
+      right: calc(-30px - 10mm); /* 10mm gap from pullout arrow */
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
       font-weight: bold;
-      color: black; /* Black text */
+      color: black;
       text-align: left;
       opacity: 1;
       transition: opacity 1s ease-out;
       z-index: 10;
     }
-    /* Override for material panel label to align with its pullout arrow */
+    /* Sidebar Labels for Material Panel */
     #material-panel .sidebar-label {
-      top: calc(50% + 20mm);
+      position: absolute;
+      right: calc(-30px - 10mm); /* 10mm gap from pullout arrow */
+      top: calc(50% + 20mm); /* Align with material pullout arrow */
       transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: black;
+      text-align: left;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+      z-index: 10;
     }
   </style>
 </head>
