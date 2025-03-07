@@ -154,7 +154,7 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 0; /* Same top as Info Panel */
+      top: 0; /* Same top as info panel */
       width: 350px;
       height: 100%;
       background: rgba(200,0,0,0.8); /* Semi-transparent red */
@@ -206,6 +206,11 @@
       opacity: 1;
       transition: opacity 1s ease-out;
       z-index: 10;
+    }
+    /* Specific override for material panel label */
+    #material-panel .sidebar-label {
+      top: calc(50% + 20mm); /* Align with material pullout arrow */
+      transform: translateY(-50%);
     }
   </style>
 </head>
