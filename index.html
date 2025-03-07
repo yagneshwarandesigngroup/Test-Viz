@@ -128,7 +128,7 @@
       padding: 10px;
       border-radius: 0 5px 5px 0;
       cursor: pointer;
-      /* Use opacity transition for fading */
+      transform: translateY(-50%);
       transition: opacity 0.5s ease, background 0.3s;
       opacity: 1;
       pointer-events: auto;
@@ -154,24 +154,25 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 20mm; /* Closed state gap is 20mm */
+      top: 0; /* Same top as info panel */
       width: 350px;
       height: 100%;
-      background: rgba(200, 0, 0, 0.8);
+      background: rgba(200, 0, 0, 0.8); /* Semi-transparent red */
       color: white;
       padding: 20px;
-      transition: left 0.4s ease-in-out, top 0.4s ease-in-out;
+      transition: left 0.4s ease-in-out;
       z-index: 7;
     }
     #material-panel .pullout-arrow {
       position: absolute;
-      top: 50%;
+      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
       right: -30px;
       background: rgba(200, 0, 0, 0.9);
       color: white;
       padding: 10px;
       border-radius: 0 5px 5px 0;
       cursor: pointer;
+      transform: translateY(-50%);
       transition: opacity 0.5s ease, background 0.3s;
       opacity: 1;
       pointer-events: auto;
@@ -193,12 +194,13 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Sidebar Labels */
-    .sidebar-label {
+    /* Sidebar Labels - repositioned to be to the right of the pullout arrow */
+    #info-panel .sidebar-label,
+    #material-panel .sidebar-label {
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      right: -50px;
+      top: 50%;
+      transform: translateY(-50%);
       font-size: 16px;
       font-weight: bold;
       color: white;
@@ -322,15 +324,6 @@
     };
     var viewer = pannellum.viewer('viewer', viewerConfig);
     
-    // Function to show sidebar label temporarily.
-    function showSidebarLabel(id, duration) {
-      const label = document.getElementById(id);
-      label.style.opacity = 1;
-      setTimeout(() => {
-        label.style.opacity = 0;
-      }, duration);
-    }
-    
     // When a navigation item is clicked, update both Info and Material panels.
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', function() {
@@ -357,9 +350,6 @@
         document.getElementById('info-text').innerText = infoText;
         // Update Material Panel.
         document.getElementById('material-text').innerText = materialDetails[sceneId] || '';
-        // Show sidebar labels for 2 seconds on navigation click.
-        showSidebarLabel('info-label', 2000);
-        showSidebarLabel('material-label', 2000);
       });
     });
     
@@ -394,8 +384,6 @@
         // Fade out material arrow.
         materialArrow.style.opacity = '0';
         materialArrow.style.pointerEvents = 'none';
-        // Show the Info label for 2 sec on open.
-        showSidebarLabel('info-label', 2000);
       }
     });
     
@@ -410,9 +398,7 @@
       
       // Toggle Material Panel.
       if (materialPanel.style.left === '0px') {
-        // Closing: Animate top back to 20mm.
         materialPanel.style.left = '-350px';
-        materialPanel.style.top = '20mm';
         this.innerHTML = '❯';
         // Fade in info arrow after closing.
         setTimeout(() => {
@@ -420,27 +406,23 @@
           infoArrow.style.pointerEvents = 'auto';
         }, 500);
       } else {
-        // Opening: Animate top to 0 to fill the gap.
         materialPanel.style.left = '0px';
-        materialPanel.style.top = '0px';
         this.innerHTML = '❮';
         // Fade out info arrow.
         infoArrow.style.opacity = '0';
         infoArrow.style.pointerEvents = 'none';
-        // Show the Materials label for 2 sec on open.
-        showSidebarLabel('material-label', 2000);
       }
     });
     
-    // Fade out sidebar labels 4 sec after the loading screen is hidden.
+    // Fade out sidebar labels after 2 seconds.
     window.addEventListener('load', function() {
-      setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-      }, 2000);
       setTimeout(() => {
         document.getElementById('info-label').style.opacity = 0;
         document.getElementById('material-label').style.opacity = 0;
-      }, 4000);
+      }, 2000);
+      setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+      }, 2000);
     });
   </script>
 </body>
