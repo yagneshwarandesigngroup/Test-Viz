@@ -194,29 +194,25 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Sidebar Labels - now added for both sidebars */
-    #info-panel .sidebar-label {
+    /* Pullout Labels next to the arrows */
+    #info-panel .pullout-label {
       position: absolute;
-      right: calc(-30px - 10mm); /* 10mm gap from the pullout arrow */
+      right: calc(-30px - 10mm); /* 10mm gap from the arrow */
       top: 50%;
       transform: translateY(-50%);
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 14px;
       color: black;
       text-align: left;
-      opacity: 1;
       z-index: 10;
     }
-    #material-panel .sidebar-label {
+    #material-panel .pullout-label {
       position: absolute;
-      right: calc(-30px - 10mm); /* 10mm gap from the pullout arrow */
-      top: calc(50% + 20mm); /* Align with material pullout arrow */
+      right: calc(-30px - 10mm); /* 10mm gap from the arrow */
+      top: calc(50% + 20mm);
       transform: translateY(-50%);
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 14px;
       color: black;
       text-align: left;
-      opacity: 1;
       z-index: 10;
     }
   </style>
@@ -256,8 +252,7 @@
   <!-- Info Panel (Sidebar) -->
   <div id="info-panel">
     <div class="pullout-arrow" id="info-arrow">❯</div>
-    <!-- Info label next to pullout arrow -->
-    <div class="sidebar-label" id="info-label">Info</div>
+    <div class="pullout-label" id="info-pullout-label">Info</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
       <p id="info-text"></p>
@@ -267,8 +262,7 @@
   <!-- Material Panel (Sidebar for Material Details) -->
   <div id="material-panel">
     <div class="pullout-arrow" id="material-arrow">❯</div>
-    <!-- Material label next to pullout arrow -->
-    <div class="sidebar-label" id="material-label">Materials</div>
+    <div class="pullout-label" id="material-pullout-label">Materials</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
       <p id="material-text"></p>
@@ -293,7 +287,7 @@
       "</div>";
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Material details for each room with improved content and bold formatting.
+    // Material details for each room with enhanced formatting.
     var materialDetails = {
       "hall": "Living Room Materials:<br>" +
               "- <strong>Marble Flooring</strong> for a sleek, luxurious finish<br>" +
@@ -319,7 +313,6 @@
                  "- <strong>Weather-Resistant Metal Accents</strong> for modern aesthetics<br>" +
                  "- <strong>Stone Veneer</strong> for a natural, elegant finish"
     };
-    // Use innerHTML so that the formatting renders.
     document.getElementById('material-text').innerHTML = materialDetails["hall"];
     
     // Use media query to set different zoom settings for PC and mobile.
