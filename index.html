@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>360° Virtual Walkthrough</title>
+  <title>360° test Virtual Walkthrough</title>
   <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
   <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css">
   <style>
@@ -194,26 +194,26 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Pullout Labels next to the arrows */
-    #info-panel .pullout-label {
+    /* Sidebar Labels */
+    #info-panel .sidebar-label,
+    #material-panel .sidebar-label {
       position: absolute;
-      right: calc(-30px - 10mm); /* 10mm gap from the arrow */
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 14px;
+      right: calc(-30px - 10mm); /* 10mm gap from the pullout arrow */
+      font-size: 16px;
+      font-weight: bold;
       color: black;
       text-align: left;
+      opacity: 1;
+      transition: opacity 1s ease-out;
       z-index: 10;
     }
-    #material-panel .pullout-label {
-      position: absolute;
-      right: calc(-30px - 10mm); /* 10mm gap from the arrow */
+    #info-panel .sidebar-label {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    #material-panel .sidebar-label {
       top: calc(50% + 20mm);
       transform: translateY(-50%);
-      font-size: 14px;
-      color: black;
-      text-align: left;
-      z-index: 10;
     }
   </style>
 </head>
@@ -251,8 +251,8 @@
   
   <!-- Info Panel (Sidebar) -->
   <div id="info-panel">
+    <div class="sidebar-label" id="info-label">Info</div>
     <div class="pullout-arrow" id="info-arrow">❯</div>
-    <div class="pullout-label" id="info-pullout-label">Info</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
       <p id="info-text"></p>
@@ -261,8 +261,8 @@
   
   <!-- Material Panel (Sidebar for Material Details) -->
   <div id="material-panel">
+    <div class="sidebar-label" id="material-label">Materials</div>
     <div class="pullout-arrow" id="material-arrow">❯</div>
-    <div class="pullout-label" id="material-pullout-label">Materials</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
       <p id="material-text"></p>
@@ -287,7 +287,7 @@
       "</div>";
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Material details for each room with enhanced formatting.
+    // Material details for each room with improved content.
     var materialDetails = {
       "hall": "Living Room Materials:<br>" +
               "- <strong>Marble Flooring</strong> for a sleek, luxurious finish<br>" +
