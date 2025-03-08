@@ -165,7 +165,7 @@
     }
     #material-panel .pullout-arrow {
       position: absolute;
-      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
+      top: calc(50% + 20mm); /* Pullout arrow moved down by 20mm relative to center */
       right: -30px;
       background: rgba(200,0,0,0.9);
       color: white;
@@ -194,6 +194,8 @@
       line-height: 1.5;
       white-space: pre-line;
     }
+    /* Sidebar Labels - removed per previous request, now replaced by custom material content styling */
+    /* For this update, we no longer display a separate pullout bar name */
   </style>
 </head>
 <body>
@@ -264,14 +266,46 @@
       "</div>";
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Material details for each room.
+    // Updated Material details for each room with a bold title and expanded content.
     var materialDetails = {
-      "hall": "Living Room Materials:\n- Marble flooring\n- Fabric sofa\n- Metal fixtures\n- Bisoke wood accents\n- High-gloss finish\n- Textured drapes",
-      "kitchen": "Kitchen Materials:\n- Granite countertops\n- Stainless steel appliances\n- Ceramic tiles\n- Quartz backsplash\n- Wood cabinetry",
-      "mbed": "Master Bedroom Materials:\n- Polished hardwood floors\n- Upholstered bed with premium linen\n- Brushed metal lamps\n- Soft cotton curtains",
-      "balcony": "Balcony Materials:\n- Composite decking\n- Glass railings\n- Weather-resistant metal accents\n- Stone veneer"
+      "hall": "<strong>Living Room Materials:</strong><br>" +
+              "- Premium marble flooring for durability and elegance.<br>" +
+              "- Luxurious fabric sofa with deep cushions.<br>" +
+              "- Custom metal fixtures in brushed nickel.<br>" +
+              "- Accented Bisoke wood elements for a warm ambiance.<br>" +
+              "- High-gloss finish on accent walls.<br>" +
+              "- Textured drapes that complement natural lighting.<br>" +
+              "- Designer lighting fixtures to enhance mood.<br>" +
+              "- Soft area rugs for added comfort and style.",
+      "kitchen": "<strong>Kitchen Materials:</strong><br>" +
+                 "- Granite countertops with a polished finish.<br>" +
+                 "- Top-of-the-line stainless steel appliances.<br>" +
+                 "- Durable ceramic tiles for flooring and backsplashes.<br>" +
+                 "- Quartz backsplash that resists stains and heat.<br>" +
+                 "- Custom wood cabinetry with soft-close features.<br>" +
+                 "- Modern pendant lighting over the island.<br>" +
+                 "- Integrated smart appliances for energy efficiency.<br>" +
+                 "- High-performance under-cabinet lighting.",
+      "mbed": "<strong>Master Bedroom Materials:</strong><br>" +
+              "- Polished hardwood floors for a warm, timeless look.<br>" +
+              "- Upholstered bed featuring premium linen headboard.<br>" +
+              "- Brushed metal lamps with minimalist design.<br>" +
+              "- Soft cotton curtains that allow natural light.<br>" +
+              "- Custom-built wardrobes with elegant finishes.<br>" +
+              "- Plush area rugs for added comfort.<br>" +
+              "- Ambient LED lighting for mood enhancement.<br>" +
+              "- High-quality bedding and pillows for ultimate comfort.",
+      "balcony": "<strong>Balcony Materials:</strong><br>" +
+                 "- Composite decking for long-lasting outdoor use.<br>" +
+                 "- Sleek glass railings for unobstructed views.<br>" +
+                 "- Weather-resistant metal accents for modern flair.<br>" +
+                 "- Natural stone veneer for an organic touch.<br>" +
+                 "- Outdoor seating with weatherproof cushions.<br>" +
+                 "- Integrated planters for greenery.<br>" +
+                 "- Ambient outdoor lighting for evening ambiance.<br>" +
+                 "- Durable railing finishes for safety and style."
     };
-    document.getElementById('material-text').innerText = materialDetails["hall"];
+    document.getElementById('material-text').innerHTML = materialDetails["hall"];
     
     // Use media query to set different zoom settings for PC and mobile.
     var isMobile = window.matchMedia("only screen and (max-width: 767px)").matches;
@@ -308,21 +342,6 @@
     };
     var viewer = pannellum.viewer('viewer', viewerConfig);
     
-    // Function to show sidebar labels for a given duration.
-    function showLabel(sidebarId, duration) {
-      // If labels are removed, this function is no longer needed.
-      // (Alternatively, you can re-add them if desired.)
-    }
-    
-    // On initial load, remove sidebar labels after 4 seconds.
-    window.addEventListener('load', function() {
-      setTimeout(() => {
-        // If there were labels, they would fade out here.
-        // Since we removed them, no action is needed.
-        document.getElementById('loading-screen').style.display = 'none';
-      }, 4000);
-    });
-    
     // When a navigation item is clicked, update both Info and Material panels.
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', function() {
@@ -348,7 +367,7 @@
         }
         document.getElementById('info-text').innerText = infoText;
         // Update Material Panel.
-        document.getElementById('material-text').innerText = materialDetails[sceneId] || '';
+        document.getElementById('material-text').innerHTML = materialDetails[sceneId] || '';
       });
     });
     
