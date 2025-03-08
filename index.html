@@ -189,13 +189,13 @@
       display: block;
       cursor: pointer;
     }
+    /* Updated material text styling */
     #material-panel #material-text {
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: 12px;
+      line-height: 1.8;
       white-space: pre-line;
+      font-family: Arial, sans-serif;
     }
-    /* Sidebar Labels - removed per previous request, now replaced by custom material content styling */
-    /* For this update, we no longer display a separate pullout bar name */
   </style>
 </head>
 <body>
@@ -266,44 +266,44 @@
       "</div>";
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Updated Material details for each room with a bold title and expanded content.
+    // Updated Material details for each room with better content.
     var materialDetails = {
       "hall": "<strong>Living Room Materials:</strong><br>" +
-              "- Premium marble flooring for durability and elegance.<br>" +
-              "- Luxurious fabric sofa with deep cushions.<br>" +
-              "- Custom metal fixtures in brushed nickel.<br>" +
-              "- Accented Bisoke wood elements for a warm ambiance.<br>" +
-              "- High-gloss finish on accent walls.<br>" +
-              "- Textured drapes that complement natural lighting.<br>" +
-              "- Designer lighting fixtures to enhance mood.<br>" +
-              "- Soft area rugs for added comfort and style.",
+              "- Premium marble flooring for elegance and durability.<br>" +
+              "- Luxurious fabric sofa with deep, comfortable cushions.<br>" +
+              "- Custom metal fixtures with a brushed nickel finish.<br>" +
+              "- Accent Bisoke wood elements to add warmth.<br>" +
+              "- High-gloss finishes on accent surfaces.<br>" +
+              "- Textured drapes to soften the space.<br>" +
+              "- Designer lighting to create mood.<br>" +
+              "- Plush area rugs for added comfort.",
       "kitchen": "<strong>Kitchen Materials:</strong><br>" +
                  "- Granite countertops with a polished finish.<br>" +
-                 "- Top-of-the-line stainless steel appliances.<br>" +
-                 "- Durable ceramic tiles for flooring and backsplashes.<br>" +
+                 "- State-of-the-art stainless steel appliances.<br>" +
+                 "- Durable ceramic tiles on floors and backsplashes.<br>" +
                  "- Quartz backsplash that resists stains and heat.<br>" +
-                 "- Custom wood cabinetry with soft-close features.<br>" +
+                 "- Custom wood cabinetry with soft-close mechanisms.<br>" +
                  "- Modern pendant lighting over the island.<br>" +
-                 "- Integrated smart appliances for energy efficiency.<br>" +
-                 "- High-performance under-cabinet lighting.",
+                 "- Integrated smart appliances for efficiency.<br>" +
+                 "- Under-cabinet LED lighting for workspace.",
       "mbed": "<strong>Master Bedroom Materials:</strong><br>" +
-              "- Polished hardwood floors for a warm, timeless look.<br>" +
-              "- Upholstered bed featuring premium linen headboard.<br>" +
+              "- Polished hardwood floors for a timeless look.<br>" +
+              "- Upholstered bed with premium linen headboard.<br>" +
               "- Brushed metal lamps with minimalist design.<br>" +
-              "- Soft cotton curtains that allow natural light.<br>" +
+              "- Soft cotton curtains for natural light control.<br>" +
               "- Custom-built wardrobes with elegant finishes.<br>" +
-              "- Plush area rugs for added comfort.<br>" +
-              "- Ambient LED lighting for mood enhancement.<br>" +
-              "- High-quality bedding and pillows for ultimate comfort.",
+              "- Plush area rugs for warmth and comfort.<br>" +
+              "- Ambient LED lighting for a relaxing mood.<br>" +
+              "- High-quality bedding for ultimate comfort.",
       "balcony": "<strong>Balcony Materials:</strong><br>" +
                  "- Composite decking for long-lasting outdoor use.<br>" +
-                 "- Sleek glass railings for unobstructed views.<br>" +
-                 "- Weather-resistant metal accents for modern flair.<br>" +
+                 "- Sleek glass railings offering unobstructed views.<br>" +
+                 "- Weather-resistant metal accents for modern appeal.<br>" +
                  "- Natural stone veneer for an organic touch.<br>" +
                  "- Outdoor seating with weatherproof cushions.<br>" +
-                 "- Integrated planters for greenery.<br>" +
-                 "- Ambient outdoor lighting for evening ambiance.<br>" +
-                 "- Durable railing finishes for safety and style."
+                 "- Integrated planters to bring greenery in.<br>" +
+                 "- Ambient outdoor lighting for evening charm.<br>" +
+                 "- Durable finishes ensuring safety and style."
     };
     document.getElementById('material-text').innerHTML = materialDetails["hall"];
     
