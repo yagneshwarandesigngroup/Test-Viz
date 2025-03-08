@@ -194,6 +194,29 @@
       line-height: 1.5;
       white-space: pre-line;
     }
+    /* Sidebar Labels */
+    #info-panel .sidebar-label {
+      position: absolute;
+      right: calc(-30px - 10px); /* 10px gap from the pullout arrow */
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      transition: opacity 1s ease-out;
+      z-index: 10;
+    }
+    #material-panel .sidebar-label {
+      position: absolute;
+      right: calc(-30px - 10px); /* 10px gap from the pullout arrow */
+      top: calc(50% + 20mm);
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      transition: opacity 1s ease-out;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -230,6 +253,7 @@
   
   <!-- Info Panel (Sidebar) -->
   <div id="info-panel">
+    <div class="sidebar-label" id="info-label">Info</div>
     <div class="pullout-arrow" id="info-arrow">❯</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
@@ -239,6 +263,7 @@
   
   <!-- Material Panel (Sidebar for Material Details) -->
   <div id="material-panel">
+    <div class="sidebar-label" id="material-label">Materials</div>
     <div class="pullout-arrow" id="material-arrow">❯</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
@@ -264,7 +289,7 @@
       "</div>";
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Updated material details for each room with improved content and bold important words.
+    // Updated material details for each room with improved content.
     var materialDetails = {
       "hall": "Living Room Materials:<br>" +
               "- <strong>Marble Flooring</strong> for a sleek, luxurious finish<br>" +
@@ -416,13 +441,6 @@
         infoArrow.style.opacity = '0';
         infoArrow.style.pointerEvents = 'none';
       }
-    });
-    
-    // On initial load, show labels for 4 seconds.
-    window.addEventListener('load', function() {
-      setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-      }, 4000);
     });
   </script>
 </body>
