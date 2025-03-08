@@ -119,35 +119,22 @@
       transition: left 0.4s ease-in-out;
       z-index: 6;
     }
-    /* Container for arrow and label in Info Panel */
-    #info-panel .pullout-container {
+    #info-panel .pullout-arrow {
       position: absolute;
       top: 50%;
       right: -30px;
-      display: flex;
-      align-items: center;
-      transform: translateY(-50%);
-    }
-    #info-panel .pullout-arrow {
       background: rgba(0,0,0,0.9);
       color: white;
       padding: 10px;
       border-radius: 0 5px 5px 0;
       cursor: pointer;
+      transform: translateY(-50%);
       transition: opacity 0.5s ease, background 0.3s;
       opacity: 1;
       pointer-events: auto;
     }
     #info-panel .pullout-arrow:hover {
       background: rgba(0,0,0,0.4);
-    }
-    #info-panel .pullout-label {
-      margin-left: 10px; /* 10px gap between arrow and text */
-      font-size: 16px;
-      font-weight: bold;
-      color: black;
-      text-align: left;
-      transition: opacity 1s ease-out;
     }
     #info-panel .info-content {
       margin-top: 50px;
@@ -176,35 +163,22 @@
       transition: left 0.4s ease-in-out;
       z-index: 7;
     }
-    /* Container for arrow and label in Material Panel */
-    #material-panel .pullout-container {
-      position: absolute;
-      top: calc(50% + 20mm); /* Arrow shifted down by 20mm relative to center */
-      right: -30px;
-      display: flex;
-      align-items: center;
-      transform: translateY(-50%);
-    }
     #material-panel .pullout-arrow {
+      position: absolute;
+      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
+      right: -30px;
       background: rgba(200,0,0,0.9);
       color: white;
       padding: 10px;
       border-radius: 0 5px 5px 0;
       cursor: pointer;
+      transform: translateY(-50%);
       transition: opacity 0.5s ease, background 0.3s;
       opacity: 1;
       pointer-events: auto;
     }
     #material-panel .pullout-arrow:hover {
       background: rgba(200,0,0,0.4);
-    }
-    #material-panel .pullout-label {
-      margin-left: 10px; /* 10px gap between arrow and label */
-      font-size: 16px;
-      font-weight: bold;
-      color: black;
-      text-align: left;
-      transition: opacity 1s ease-out;
     }
     #material-panel .info-content {
       margin-top: 50px;
@@ -219,6 +193,31 @@
       font-size: 14px;
       line-height: 1.5;
       white-space: pre-line;
+    }
+    /* Sidebar Labels - now added for both sidebars */
+    #info-panel .sidebar-label {
+      position: absolute;
+      right: calc(-30px - 10mm); /* 10mm gap from the pullout arrow */
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: black;
+      text-align: left;
+      opacity: 1;
+      z-index: 10;
+    }
+    #material-panel .sidebar-label {
+      position: absolute;
+      right: calc(-30px - 10mm); /* 10mm gap from the pullout arrow */
+      top: calc(50% + 20mm); /* Align with material pullout arrow */
+      transform: translateY(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: black;
+      text-align: left;
+      opacity: 1;
+      z-index: 10;
     }
   </style>
 </head>
@@ -256,10 +255,9 @@
   
   <!-- Info Panel (Sidebar) -->
   <div id="info-panel">
-    <div class="pullout-container" id="info-container">
-      <div class="pullout-arrow" id="info-arrow">❯</div>
-      <div class="pullout-label" id="info-label">Info</div>
-    </div>
+    <div class="pullout-arrow" id="info-arrow">❯</div>
+    <!-- Info label next to pullout arrow -->
+    <div class="sidebar-label" id="info-label">Info</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
       <p id="info-text"></p>
@@ -268,10 +266,9 @@
   
   <!-- Material Panel (Sidebar for Material Details) -->
   <div id="material-panel">
-    <div class="pullout-container" id="material-container">
-      <div class="pullout-arrow" id="material-arrow">❯</div>
-      <div class="pullout-label" id="material-label">Materials</div>
-    </div>
+    <div class="pullout-arrow" id="material-arrow">❯</div>
+    <!-- Material label next to pullout arrow -->
+    <div class="sidebar-label" id="material-label">Materials</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
       <p id="material-text"></p>
@@ -296,7 +293,7 @@
       "</div>";
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Material details for each room with enhanced formatting.
+    // Material details for each room with improved content and bold formatting.
     var materialDetails = {
       "hall": "Living Room Materials:<br>" +
               "- <strong>Marble Flooring</strong> for a sleek, luxurious finish<br>" +
@@ -322,6 +319,7 @@
                  "- <strong>Weather-Resistant Metal Accents</strong> for modern aesthetics<br>" +
                  "- <strong>Stone Veneer</strong> for a natural, elegant finish"
     };
+    // Use innerHTML so that the formatting renders.
     document.getElementById('material-text').innerHTML = materialDetails["hall"];
     
     // Use media query to set different zoom settings for PC and mobile.
@@ -447,13 +445,6 @@
         infoArrow.style.opacity = '0';
         infoArrow.style.pointerEvents = 'none';
       }
-    });
-    
-    // On initial load, show sidebars for 4 seconds.
-    window.addEventListener('load', function() {
-      setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-      }, 4000);
     });
   </script>
 </body>
