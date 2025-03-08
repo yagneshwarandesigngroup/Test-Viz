@@ -154,7 +154,7 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 0; /* Occupies same vertical space as Info Panel */
+      top: 0; /* Same vertical position as Info Panel */
       width: 350px;
       height: 100%;
       background: rgba(200,0,0,0.8); /* Semi-transparent red */
@@ -165,7 +165,7 @@
     }
     #material-panel .pullout-arrow {
       position: absolute;
-      top: calc(50% + 20mm); /* Pullout arrow moved down by 20mm relative to center */
+      top: calc(50% + 20mm); /* Moved down by 20mm relative to center */
       right: -30px;
       background: rgba(200,0,0,0.9);
       color: white;
@@ -307,6 +307,21 @@
       }
     };
     var viewer = pannellum.viewer('viewer', viewerConfig);
+    
+    // Function to show sidebar labels for a given duration.
+    function showLabel(sidebarId, duration) {
+      // If labels are removed, this function is no longer needed.
+      // (Alternatively, you can re-add them if desired.)
+    }
+    
+    // On initial load, remove sidebar labels after 4 seconds.
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        // If there were labels, they would fade out here.
+        // Since we removed them, no action is needed.
+        document.getElementById('loading-screen').style.display = 'none';
+      }, 4000);
+    });
     
     // When a navigation item is clicked, update both Info and Material panels.
     document.querySelectorAll('.nav-item').forEach(item => {
