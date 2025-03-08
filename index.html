@@ -194,32 +194,6 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Sidebar Labels for Info Panel */
-    #info-panel .sidebar-label {
-      position: absolute;
-      right: calc(-30px - 10mm); /* 10mm gap from pullout arrow */
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-      color: black;
-      text-align: left;
-      opacity: 1;
-      transition: opacity 1s ease-out;
-      z-index: 10;
-    }
-    /* Sidebar Labels for Material Panel */
-    #material-panel .sidebar-label {
-      position: absolute;
-      right: calc(-30px - 20mm); /* 10mm gap from pullout arrow */
-      top: calc(50% + 20mm); /* Align with material pullout arrow */
-      transform: translateY(-50%);
-      font-size: 16px;
-      color: black;
-      text-align: left;
-      opacity: 1;
-      transition: opacity 1s ease-out;
-      z-index: 10;
-    }
   </style>
 </head>
 <body>
@@ -256,7 +230,6 @@
   
   <!-- Info Panel (Sidebar) -->
   <div id="info-panel">
-    <div class="sidebar-label" id="info-label">Info</div>
     <div class="pullout-arrow" id="info-arrow">❯</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
@@ -266,7 +239,6 @@
   
   <!-- Material Panel (Sidebar for Material Details) -->
   <div id="material-panel">
-    <div class="sidebar-label" id="material-label">Materials</div>
     <div class="pullout-arrow" id="material-arrow">❯</div>
     <div class="info-content">
       <img src="logo.png" alt="Logo" class="info-logo">
@@ -336,25 +308,7 @@
     };
     var viewer = pannellum.viewer('viewer', viewerConfig);
     
-    // Function to show sidebar labels for a given duration.
-    function showLabel(sidebarId, duration) {
-      var label = document.querySelector(sidebarId + " .sidebar-label");
-      label.style.opacity = 1;
-      setTimeout(() => {
-        label.style.opacity = 0;
-      }, duration);
-    }
-    
-    // On initial load, show labels for 4 seconds.
-    window.addEventListener('load', function() {
-      showLabel("#info-panel", 4000);
-      showLabel("#material-panel", 4000);
-      setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-      }, 2000);
-    });
-    
-    // When a navigation item is clicked, update both Info and Material panels and show labels for 2 seconds.
+    // When a navigation item is clicked, update both Info and Material panels.
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', function() {
         var sceneId = this.dataset.scene;
@@ -380,9 +334,6 @@
         document.getElementById('info-text').innerText = infoText;
         // Update Material Panel.
         document.getElementById('material-text').innerText = materialDetails[sceneId] || '';
-        // Show sidebar labels for 2 seconds.
-        showLabel("#info-panel", 2000);
-        showLabel("#material-panel", 2000);
       });
     });
     
