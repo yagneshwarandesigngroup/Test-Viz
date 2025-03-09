@@ -154,7 +154,7 @@
     #material-panel {
       position: fixed;
       left: -350px;
-      top: 0; /* Same vertical position as Info Panel */
+      top: 0; /* Occupies same vertical space as info panel */
       width: 350px;
       height: 100%;
       background: rgba(200,0,0,0.8); /* Semi-transparent red */
@@ -194,12 +194,13 @@
       line-height: 1.5;
       white-space: pre-line;
     }
-    /* Sidebar Labels */
-    #info-panel .sidebar-label,
-    #material-panel .sidebar-label {
+    /* Sidebar Labels for Info Panel */
+    #info-panel .sidebar-label {
       position: absolute;
-      right: calc(-30px - 10mm); /* 10mm gap from the pullout arrow */
-      font-size: 16px;
+      right: calc(-30px - 10mm); /* 10mm gap from pullout arrow */
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
       font-weight: bold;
       color: black;
       text-align: left;
@@ -207,13 +208,19 @@
       transition: opacity 1s ease-out;
       z-index: 10;
     }
-    #info-panel .sidebar-label {
-      top: 50%;
-      transform: translateY(-50%);
-    }
+    /* Sidebar Labels for Material Panel */
     #material-panel .sidebar-label {
-      top: calc(50% + 20mm);
+      position: absolute;
+      right: calc(-30px - 19.5mm); /* 10mm gap from pullout arrow */
+      top: calc(50% + 20mm); /* Align with material pullout arrow */
       transform: translateY(-50%);
+      font-size: 14px;
+      font-weight: bold;
+      color: black;
+      text-align: left;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+      z-index: 10;
     }
   </style>
 </head>
@@ -287,7 +294,7 @@
       "</div>";
     document.getElementById('info-text').innerHTML = companyDetails;
     
-    // Material details for each room with improved content.
+    // Material details for each room.
     var materialDetails = {
       "hall": "Living Room Materials:<br>" +
               "- <strong>Marble Flooring</strong> for a sleek, luxurious finish<br>" +
@@ -350,7 +357,25 @@
     };
     var viewer = pannellum.viewer('viewer', viewerConfig);
     
-    // When a navigation item is clicked, update both Info and Material panels.
+    // Function to show sidebar labels for a given duration.
+    function showLabel(sidebarId, duration) {
+      var label = document.querySelector(sidebarId + " .sidebar-label");
+      label.style.opacity = 1;
+      setTimeout(() => {
+        label.style.opacity = 0;
+      }, duration);
+    }
+    
+    // On initial load, show labels for 4 seconds.
+    window.addEventListener('load', function() {
+      showLabel("#info-panel", 4000);
+      showLabel("#material-panel", 4000);
+      setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+      }, 2000);
+    });
+    
+    // When a navigation item is clicked, update both Info and Material panels and show labels for 2 seconds.
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', function() {
         var sceneId = this.dataset.scene;
@@ -376,6 +401,9 @@
         document.getElementById('info-text').innerText = infoText;
         // Update Material Panel.
         document.getElementById('material-text').innerHTML = materialDetails[sceneId] || '';
+        // Show sidebar labels for 2 seconds.
+        showLabel("#info-panel", 2000);
+        showLabel("#material-panel", 2000);
       });
     });
     
